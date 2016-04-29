@@ -171,6 +171,20 @@ namespace Tac
             }
         }
 
+
+		/// <summary>
+		/// Called by Unity to draw the GUI - can be called many times per frame.
+		/// </summary>
+		public void OnGUI( )
+		{
+			mainWindow.DrawWindow( );
+			settingsWindow.DrawWindow( );
+			helpWindow.DrawWindow( );
+			button.Draw( );
+		}
+
+
+
         /*
          * Checks the PartResource's flow state (controlled from the part's right click menu), and makes our state match its state.
          */
