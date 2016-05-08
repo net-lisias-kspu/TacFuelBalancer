@@ -26,9 +26,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Tac
 {
@@ -39,6 +37,8 @@ namespace Tac
         public double FuelWarningLevel { get; set; }
         public double FuelCriticalLevel { get; set; }
 
+        public bool OneTabOnly { get; set; }
+        public bool ShowShipNumber { get; set; }
         public bool ShowStageNumber { get; set; }
         public bool ShowMaxAmount { get; set; }
         public bool ShowCurrentAmount { get; set; }
@@ -57,6 +57,7 @@ namespace Tac
             FuelWarningLevel = 25.0;
             FuelCriticalLevel = 5.0;
 
+            ShowShipNumber = true;
             ShowStageNumber = true;
             ShowMaxAmount = true;
             ShowCurrentAmount = true;
@@ -76,6 +77,8 @@ namespace Tac
             FuelWarningLevel = Utilities.GetValue(config, "FuelWarningLevel", FuelWarningLevel);
             FuelCriticalLevel = Utilities.GetValue(config, "FuelCriticalLevel", FuelCriticalLevel);
 
+            OneTabOnly = Utilities.GetValue(config, "OneTabOnly", OneTabOnly);
+            ShowShipNumber = Utilities.GetValue(config, "ShowShipNumber", ShowShipNumber);
             ShowStageNumber = Utilities.GetValue(config, "ShowStageNumber", ShowStageNumber);
             ShowMaxAmount = Utilities.GetValue(config, "ShowMaxAmount", ShowMaxAmount);
             ShowCurrentAmount = Utilities.GetValue(config, "ShowCurrentAmount", ShowCurrentAmount);
@@ -95,6 +98,8 @@ namespace Tac
             config.AddValue("FuelWarningLevel", FuelWarningLevel);
             config.AddValue("FuelCriticalLevel", FuelCriticalLevel);
 
+            config.AddValue("OneTabOnly", OneTabOnly);
+            config.AddValue("ShowShipNumber", ShowShipNumber);
             config.AddValue("ShowStageNumber", ShowStageNumber);
             config.AddValue("ShowMaxAmount", ShowMaxAmount);
             config.AddValue("ShowCurrentAmount", ShowCurrentAmount);

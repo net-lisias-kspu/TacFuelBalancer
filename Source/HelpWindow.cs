@@ -26,9 +26,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Tac
@@ -74,17 +72,26 @@ namespace Tac
             GUILayout.Label("Copyright (c) Thunder Aerospace Corporation. Patents pending.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Space(20);
             GUILayout.Label("Features", sectionStyle, GUILayout.ExpandWidth(true));
-            GUILayout.Label("* Highlight - highlights the part so you can find it.", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Highlight - highlights/marks the part so you can find/remember it.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Edit - edit the amount in the part (only available Prelaunch or when Landed).", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Lock - prevents it from transferring the resource into or out of the part.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* In - transfers the resource into the part, taking an equal amount from each other part.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Out - transfers the resource out of the part, putting an equal amount in each other part.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Balance - transfers the resource around such that all parts being balanced are the same percentage full.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Balance All - balances all parts that are not in one of the other modes (In, Out, Lock, etc).", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Selects All - selects or deselects all parts in the resource. Can be combined with Ctrl to modify the current selection.", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Sort - sorts the parts. You can sort by multiple columns by selecting them in reverse order.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Space(20);
-            GUILayout.Label("Note that it can transfer any resource that uses the \"pump\" resource transfer mode, including liquid fuel, oxidizer, electric charge, Kethane, and RCS fuel; but not resources such as solid rocket fuel.", labelStyle);
+            GUILayout.Label("You can either transfer resources from individual parts or select multiple parts and execute the transfer for all of them at once. " +
+                            "To select a part, click the name. Shift-clicking will select a contiguous range of parts from the last part clicked. (This is useful with sorting.) " +
+                            "Alt-clicking will select all parts belonging to the same \"ship\" (i.e. a subtree of parts not separated by any docking bays). " +
+                            "Shift-alt-clicking will select all parts of the same type. All of these can be combined with Ctrl to modify rather than replace " +
+                            "the current selection, so a shift-alt-click followed by ctrl-alt-clicks can select all parts of a given type on a given ship, for example.", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Space(20);
+            GUILayout.Label("Note that it can transfer any resource that uses the \"pump\" resource transfer mode, including liquid fuel, oxidizer, electric charge, Kethane, and RCS fuel; but not resources such as solid rocket fuel.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Space(20);
             GUILayout.Label("Settings", sectionStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Auto-deselect Tabs - causes the resource selector to behave like a normal tab control, so only one resource can be shown at a time, but only one click is needed to change between them.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Maximum Fuel Flow Rate - controls how quickly fuel is transfered around. This limits each action to only transfer up to the selected amount.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Fuel Warning Level - warns (yellow) when a resource drops below this percentage of capacity.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Fuel Warning Level - warns (red) when a resource drops below this percentage of capacity.", labelStyle, GUILayout.ExpandWidth(true));

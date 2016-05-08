@@ -26,9 +26,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Tac
@@ -90,6 +88,8 @@ namespace Tac
 
             GUILayout.Space(10);
 
+            settings.OneTabOnly = GUILayout.Toggle(settings.OneTabOnly, "Auto-deselect Tabs");
+            settings.ShowShipNumber = GUILayout.Toggle(settings.ShowShipNumber, "Show Ship Number");
             settings.ShowStageNumber = GUILayout.Toggle(settings.ShowStageNumber, "Show Stage Number");
             settings.ShowMaxAmount = GUILayout.Toggle(settings.ShowMaxAmount, "Show Maximum Amount");
             settings.ShowCurrentAmount = GUILayout.Toggle(settings.ShowCurrentAmount, "Show Current Amount");

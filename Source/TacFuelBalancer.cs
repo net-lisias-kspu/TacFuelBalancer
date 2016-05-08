@@ -25,16 +25,13 @@
  * is purely coincidental.
  */
 
-using KSP.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 
 namespace Tac
 {
-    public class TacFuelBalancer : PartModule
+    class TacFuelBalancer : PartModule
     {
         // Kept for future expansion.
         //public override void OnAwake()
@@ -96,46 +93,177 @@ namespace Tac
         //}
     }
 
-    public enum TransferDirection
+    enum TransferDirection
     {
-        NONE,
+        NONE = 0,
         IN,
         OUT,
         BALANCE,
         DUMP,
-        LOCKED
+        LOCKED,
+        VARIOUS // used by UI when multiple parts with varying directions are selected
     }
 
-    public class ResourcePartMap
+    abstract class PartResourceInfo
     {
-        public PartResource resource;
-        public Part part;
-        public TransferDirection direction = TransferDirection.NONE;
-        public bool isSelected = false;
+        public abstract void Refresh(Part part);
 
-        public ResourcePartMap(PartResource resource, Part part)
+        public abstract double Amount { get; }
+        public abstract bool Locked { get; set; }
+        public double PercentFull
+        {
+            get { return Amount / MaxAmount; }
+        }
+        public abstract ResourceTransferMode TransferMode { get; }
+        public abstract double MaxAmount { get; }
+        
+        public void SetAmount(double amount)
+        {
+            if(amount < 0 || amount > MaxAmount) throw new ArgumentOutOfRangeException();
+            SetAmountCore(amount);
+        }
+        
+        /// <summary>Attempts to transfer the given amount of resource to another <see cref="PartResourceInfo"/> object,
+        /// which must be of the same type.
+        /// </summary>
+        /// <returns>Returns the amount actually transferred, which may be less if the destination became full or
+        /// otherwise cannot accept more resources, or the source doesn't have enough.
+        /// </returns>
+        public abstract double TransferTo(PartResourceInfo destination, double amount);
+        
+        protected abstract void SetAmountCore(double amount);
+    }
+    
+    sealed class SimplePartResource : PartResourceInfo
+    {
+        public SimplePartResource(string resourceName)
+        {
+            this.resourceName = resourceName;
+        }
+
+        public override double Amount
+        {
+            get { return resource.amount; }
+        }
+
+        public override bool Locked
+        {
+            get { return !resource.flowState; }
+            set { resource.flowState = !value; }
+        }
+        
+        public override double MaxAmount
+        {
+            get { return resource.maxAmount; }
+        }
+
+        public override ResourceTransferMode TransferMode
+        {
+            get { return resource.info.resourceTransferMode; }
+        }
+        
+        public override void Refresh(Part part)
+        {
+            // we can't just save the PartResource in the constructor because the StretchyTanks mod might change it
+            resource = part.Resources[resourceName];
+        }
+        
+        public override double TransferTo(PartResourceInfo destination, double amount)
+        {
+            SimplePartResource dest = (SimplePartResource)destination;
+            amount = Math.Min(Math.Min(amount, Amount), dest.MaxAmount - dest.Amount);
+            dest.resource.amount += amount;
+            resource.amount -= amount;
+            return amount;
+        }
+        
+        protected override void SetAmountCore(double amount)
+        {
+            resource.amount = amount;
+        }
+        
+        readonly string resourceName;
+        PartResource resource;
+    }
+    
+    sealed class RocketFuelResource : PartResourceInfo
+    {
+        public override double Amount
+        {
+            get { return Math.Min(liquidFuel.amount*(10d/9), oxidizer.amount*(10d/11)); }
+        }
+        
+        public override bool Locked
+        {
+            get { return !liquidFuel.flowState || !oxidizer.flowState; }
+            set { liquidFuel.flowState = oxidizer.flowState = !value; }
+        }
+        
+        public override double MaxAmount
+        {
+            get { return Math.Min(liquidFuel.maxAmount*(10d/9), oxidizer.maxAmount*(10d/11)); }
+        }
+       
+        public override ResourceTransferMode TransferMode
+        {
+            get { return liquidFuel.info.resourceTransferMode; } // assume both have the same transfer mode
+        }
+        
+        public override void Refresh(Part part)
+        {
+            liquidFuel = part.Resources["LiquidFuel"];
+            oxidizer   = part.Resources["Oxidizer"];
+        }
+        
+        public override double TransferTo(PartResourceInfo destination, double amount)
+        {
+            RocketFuelResource dest = (RocketFuelResource)destination;
+            double liquidSpace = dest.liquidFuel.maxAmount-dest.liquidFuel.amount, oxidizerSpace = dest.oxidizer.maxAmount-dest.oxidizer.amount;
+            amount = Math.Min(Math.Min(amount, Amount), Math.Min(liquidSpace*(10d/9), oxidizerSpace*(10d/11)));
+            double fuel = amount*(9d/10), oxygen = amount*(11d/10);
+            dest.liquidFuel.amount += fuel;
+            liquidFuel.amount      -= fuel;
+            dest.oxidizer.amount   += oxygen;
+            oxidizer.amount        -= oxygen;
+            return amount;
+        }
+        
+        protected override void SetAmountCore(double amount)
+        {
+            liquidFuel.amount = amount*(9d/10);
+            oxidizer.amount   = amount*(11d/10);
+        }
+        
+        PartResource liquidFuel, oxidizer;
+    }
+    
+    sealed class ResourcePartMap
+    {
+        public readonly PartResourceInfo resource;
+        public readonly Part part;
+        public readonly int shipId;
+        public TransferDirection direction = TransferDirection.NONE;
+        public bool isHighlighted;
+        public bool isSelected;
+
+        public ResourcePartMap(PartResourceInfo resource, Part part, int shipId)
         {
             this.resource = resource;
             this.part = part;
+            this.shipId = shipId;
         }
     }
 
-    public class ResourceInfo
+    sealed class ResourceInfo
     {
-        public List<ResourcePartMap> parts = new List<ResourcePartMap>();
+        public ResourceInfo(string title)
+        {
+            this.title = title;
+        }
+        
+        public readonly List<ResourcePartMap> parts = new List<ResourcePartMap>();
+        public readonly string title;
         public bool balance = false;
         public bool isShowing = false;
-    }
-
-    public class PartPercentFull
-    {
-        public ResourcePartMap partInfo;
-        public double percentFull;
-
-        public PartPercentFull(ResourcePartMap partInfo, double percentFull)
-        {
-            this.partInfo = partInfo;
-            this.percentFull = percentFull;
-        }
     }
 }
