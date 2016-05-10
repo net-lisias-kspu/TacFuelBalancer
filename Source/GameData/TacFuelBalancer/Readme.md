@@ -1,3 +1,16 @@
+Z-Key Aerospace has rebuilt this KSP Mod for KSP V1.1.0 onwards
+TAC Fuel Balancer was by Taranis Elsu and is released under "Creative Commons Attribution-NonCommercial-ShareAlike 3.0"
+
+As of V2.5.3 it is rebuilt and fixed by Z-Key Aerospace.
+
+
+
+Taranis Elsu's readme follows...
+
+
+
+
+
 TAC Fuel Balancer
 ===================
 

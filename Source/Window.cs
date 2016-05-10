@@ -80,7 +80,7 @@ namespace Tac
 
         public virtual void SetVisible(bool newValue)
         {
-/*            if (newValue)
+/*            if (newValue) // Don't need this lot, 'cos we are using OnGui() now
             {
                 if (!visible)
                 {
