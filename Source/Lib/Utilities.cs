@@ -24,13 +24,10 @@
  * purposes. It is in no way meant to represent a real entity. Any similarity to a real entity
  * is purely coincidental.
  */
-
-using KSP.IO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+
+
 
 namespace Tac
 {
@@ -97,21 +94,6 @@ namespace Tac
             }
 
             return pos;
-        }
-
-        public static Texture2D LoadImage<T>(string filename)
-        {
-            if (File.Exists<T>(filename))
-            {
-                var bytes = File.ReadAllBytes<T>(filename);
-                Texture2D texture = new Texture2D(16, 16, TextureFormat.ARGB32, false);
-                texture.LoadImage(bytes);
-                return texture;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         public static bool GetValue(ConfigNode config, string name, bool currentValue)

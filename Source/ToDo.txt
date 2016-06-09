@@ -1,0 +1,12 @@
+﻿[DONE] Handle EVA Nicely
+[DONE] Button Visibility functions - So I'm using "Enabled/Disabled"
+[DONE] New Icon for stock toolbar
+[DONE] Close button is not quite right
+
+UnifiedButton doesn't take Blizzy NameSpace and Id
+
+Integrate with Career
+Always available setting
+
+
+New window titlebar

@@ -1,5 +1,5 @@
 ﻿/**
- * Window.cs
+ * Utilities.cs
  * 
  * Thunder Aerospace Corporation's library for the Kerbal Space Program, by Taranis Elsu
  * 
@@ -24,13 +24,9 @@
  * purposes. It is in no way meant to represent a real entity. Any similarity to a real entity
  * is purely coincidental.
  */
-
-using KSP.IO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+using KSP.IO;
 using KSP.UI.Dialogs;
 
 
@@ -47,12 +43,15 @@ namespace Tac
         private bool visible;
 
         protected GUIStyle closeButtonStyle;
+		protected GUIContent closeContent;
         private GUIStyle resizeStyle;
         private GUIContent resizeContent;
+		
 
         public bool Resizable { get; set; }
         public bool HideCloseButton { get; set; }
         public bool HideWhenPaused { get; set; }
+		public event EventHandler WindowClosed;
 
         protected Window(string windowTitle, float defaultWidth, float defaultHeight)
         {
@@ -65,8 +64,12 @@ namespace Tac
             mouseDown = false;
             visible = false;
 
-            var texture = Utilities.LoadImage<T>(IOUtils.GetFilePathFor(typeof(T), "resize.png"));
-            resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window.") : new GUIContent("R", "Drag to resize the window.");
+			var texture = TextureHelper.FromResource( "Tac.icons.resize.png", 16, 16 );
+            resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window") : new GUIContent("R", "Drag to resize the window");
+
+			var closetexture = TextureHelper.FromResource( "Tac.icons.close.png", 16, 16 );
+			closeContent = ( closetexture != null ) ? new GUIContent( closetexture, "Close window" ) : new GUIContent( "X", "Close window" );
+
 
             Resizable = true;
             HideCloseButton = false;
@@ -80,21 +83,6 @@ namespace Tac
 
         public virtual void SetVisible(bool newValue)
         {
-/*            if (newValue) // Don't need this lot, 'cos we are using OnGui() now
-            {
-                if (!visible)
-                {
-                    RenderingManager.AddToPostDrawQueue(3, new Callback(DrawWindow));
-                }
-            }
-            else
-            {
-                if (visible)
-                {
-                    RenderingManager.RemoveFromPostDrawQueue(3, new Callback(DrawWindow));
-                }
-            }*/
-
             this.visible = newValue;
         }
 
@@ -191,13 +179,13 @@ namespace Tac
             if (closeButtonStyle == null)
             {
                 closeButtonStyle = new GUIStyle(GUI.skin.button);
-                closeButtonStyle.padding = new RectOffset(5, 5, 3, 0);
+                closeButtonStyle.padding = new RectOffset(2, 2, 2, 2);
                 closeButtonStyle.margin = new RectOffset(1, 1, 1, 1);
                 closeButtonStyle.stretchWidth = false;
                 closeButtonStyle.stretchHeight = false;
                 closeButtonStyle.alignment = TextAnchor.MiddleCenter;
 
-                resizeStyle = new GUIStyle(GUI.skin.button);
+                resizeStyle = new GUIStyle(GUI.skin.label);
                 resizeStyle.alignment = TextAnchor.MiddleCenter;
                 resizeStyle.padding = new RectOffset(1, 1, 1, 1);
             }
@@ -209,9 +197,10 @@ namespace Tac
 
             if (!HideCloseButton)
             {
-                if (GUI.Button(new Rect(windowPos.width - 24, 4, 20, 20), "X", closeButtonStyle))
+                if( GUI.Button( new Rect( 4, 4, 20, 20 ), closeContent, closeButtonStyle ) )
                 {
                     SetVisible(false);
+					OnClose( EventArgs.Empty );
                 }
             }
 
@@ -258,5 +247,11 @@ namespace Tac
                 }
             }
         }
+		private void OnClose( EventArgs e )
+		{
+			this.Log( "Window Closed" );
+			if( WindowClosed != null )
+				WindowClosed( this, e );
+		}
     }
 }

@@ -48,6 +48,9 @@ namespace Tac
         private GUIStyle popupButtonStyle;
         private GUIStyle editStyle;
 
+		private GUIContent settingsContent;
+		private GUIContent helpContent;
+
         public ResourceInfo lastResourceClicked;
         public ResourcePartMap lastPartClicked;
         private double newAmount;
@@ -60,7 +63,15 @@ namespace Tac
             this.settings = settings;
             this.settingsWindow = settingsWindow;
             this.helpWindow = helpWindow;
-            SetVisible(true);
+            SetVisible( true );
+
+			var settingstexture = TextureHelper.FromResource( "Tac.icons.settings.png", 16, 16 );
+			settingsContent = ( settingstexture != null ) ? new GUIContent( settingstexture, "Settings window" ) : new GUIContent( "S", "Settings window" );
+
+			var helptexture = TextureHelper.FromResource( "Tac.icons.help.png", 16, 16 );
+			helpContent = ( helptexture != null ) ? new GUIContent( helptexture, "Settings window" ) : new GUIContent( "?", "Help window" );
+
+
         }
 
         public override void SetVisible(bool newValue)
@@ -284,15 +295,17 @@ namespace Tac
             }
             GUILayout.EndHorizontal();
 
-            if (GUI.Button(new Rect(windowPos.width - 68, 4, 20, 20), "S", closeButtonStyle))
+            if( GUI.Button( new Rect( windowPos.width - 48, 4, 20, 20 ), settingsContent, closeButtonStyle ) )
             {
-                settingsWindow.SetVisible(true);
+                settingsWindow.SetVisible( true );
             }
-            if (GUI.Button(new Rect(windowPos.width - 46, 4, 20, 20), "?", closeButtonStyle))
+            if( GUI.Button( new Rect( windowPos.width - 24, 4, 20, 20 ), helpContent, closeButtonStyle ) )
             {
-                helpWindow.SetVisible(true);
+                helpWindow.SetVisible( true );
             }
         }
+
+
 
         private string GetControlText(ResourcePartMap partInfo)
         {

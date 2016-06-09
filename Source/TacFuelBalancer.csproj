@@ -51,10 +51,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonWrapper.cs" />
-    <Compile Include="Icon.cs" />
+    <Compile Include="Buttons\AppLauncherButton.cs" />
+    <Compile Include="Buttons\BlizzysToolbarButton.cs" />
+    <Compile Include="Buttons\IToolbarButton.cs" />
+    <Compile Include="Buttons\ToolbarWrapper.cs" />
+    <Compile Include="Buttons\UnifiedButton.cs" />
     <Compile Include="InstallChecker.cs" />
-    <Compile Include="Logging.cs" />
+    <Compile Include="Lib\Logger.cs" />
+    <Compile Include="Lib\Logging.cs" />
+    <Compile Include="Lib\StreamEx.cs" />
+    <Compile Include="Lib\TextureHelper.cs" />
+    <Compile Include="Lib\Utilities.cs" />
+    <Compile Include="Lib\Window.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="PartExtensions.cs" />
     <Compile Include="PopupWindow.cs" />
@@ -64,20 +72,24 @@
     <Compile Include="Settings.cs" />
     <Compile Include="TacFuelBalancer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToolbarButton.cs" />
-    <Compile Include="ToolbarWrapper.cs" />
-    <Compile Include="Utilities.cs" />
-    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GameData\TacFuelBalancer\LICENSE.txt" />
     <Content Include="GameData\TacFuelBalancer\MiniAVC.dll" />
-    <Content Include="GameData\TacFuelBalancer\PluginData\TacFuelBalancer\resize.png" />
-    <Content Include="GameData\TacFuelBalancer\Textures\button.png" />
+    <EmbeddedResource Include="icons\icon-tac-fuel-small.png" />
+    <EmbeddedResource Include="icons\icon-tac-fuel.png" />
+    <EmbeddedResource Include="icons\close.png" />
+    <EmbeddedResource Include="icons\help.png" />
+    <EmbeddedResource Include="icons\settings.png" />
+    <Content Include="ToDo.txt" />
+    <EmbeddedResource Include="icons\resize.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameData\TacFuelBalancer\Readme.md" />
     <None Include="GameData\TacFuelBalancer\TacFuelBalancer.version" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameData\TacFuelBalancer\PluginData\TacFuelBalancer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -99,8 +111,8 @@
     <KspVersionPatch>2</KspVersionPatch>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Games\KSP\KSP-Real\GameData\TacFuelBalancer"
-robocopy "$(ProjectDir)\GameData\TacFuelBalancer" "C:\Games\KSP\KSP-Real\GameData\TacFuelBalancer" /s /e
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Games\KSP\KSP-Test\GameData\TacFuelBalancer"
+robocopy "$(ProjectDir)\GameData\TacFuelBalancer" "C:\Games\KSP\KSP-Test\GameData\TacFuelBalancer" /s /e
 
 exit 0</PostBuildEvent>
   </PropertyGroup>

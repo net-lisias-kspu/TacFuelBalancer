@@ -25,11 +25,15 @@
  * is purely coincidental.
  */
 
-using KSP.IO;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using KSP.UI.Screens;
+using KSP.IO;
+
+
 
 namespace Tac
 {
@@ -67,9 +71,12 @@ namespace Tac
         private SettingsWindow settingsWindow;
         private HelpWindow helpWindow;
         private string configFilename;
-        private ButtonWrapper button;
+		private UnifiedButton button;
         private VesselInfo vesselInfo;
         private readonly List<VesselInfo> recentVessels = new List<VesselInfo>(MaxRecentVessels);
+		private bool UiHidden;
+
+
 
         void Awake()
         {
@@ -81,20 +88,26 @@ namespace Tac
             settingsWindow = new SettingsWindow(settings);
             helpWindow = new HelpWindow();
             mainWindow = new MainWindow(this, settings, settingsWindow, helpWindow);
-
-            button = new ButtonWrapper(new Rect(Screen.width * 0.7f, 0, 32, 32),
-                "TacFuelBalancer/Textures/button", "FB",
-                "TAC Fuel Balancer", OnIconClicked);
+			mainWindow.WindowClosed += OnWindowClosed;
+			this.Log( "Making Buttons" );
+			InitButtons( );
+			this.Log( "Made Buttons" );
             
-            vesselInfo = new VesselInfo();
+            vesselInfo = new VesselInfo( );
         }
+
+
 
         void Start()
         {
             this.Log("Start");
-            Load();
+            Load( );
 
-            button.Visible = true;
+
+			// Callbacks for F2
+			GameEvents.onHideUI.Add( OnHideUI );
+			GameEvents.onShowUI.Add( OnShowUI );
+			UiHidden = false;
 
             // Make sure the resource/part list is correct after other mods, such as StretchyTanks, do their thing.
             Invoke("RebuildActiveVesselLists", 1.0f);
@@ -104,7 +117,7 @@ namespace Tac
         {
             this.Log("OnDestroy");
             Save();
-            button.Destroy();
+            RemoveButtons();
         }
 
         void Update()
@@ -138,13 +151,14 @@ namespace Tac
             }
             else if (activeVessel.isEVA)
             {
-                button.Visible = false;
+				button.SetDisabled( );
+				button.SetOff( );
                 mainWindow.SetVisible(false);
                 return;
             }
-            else if (!button.Visible)
+			else if( !button.IsEnabled( ) )
             {
-                button.Visible = true;
+				button.SetEnabled( );
             }
 
             if (activeVessel != vesselInfo.vessel || activeVessel.situation != vesselInfo.lastSituation || activeVessel.Parts.Count != vesselInfo.lastPartCount)
@@ -202,10 +216,12 @@ namespace Tac
 		/// </summary>
 		public void OnGUI( )
 		{
-			mainWindow.DrawWindow( );
-			settingsWindow.DrawWindow( );
-			helpWindow.DrawWindow( );
-			button.Draw( );
+			if( !UiHidden )
+			{
+				mainWindow.DrawWindow( );
+				settingsWindow.DrawWindow( );
+				helpWindow.DrawWindow( );
+			}
 		}
 
 
@@ -273,7 +289,6 @@ namespace Tac
             {
                 ConfigNode config = ConfigNode.Load(configFilename);
                 settings.Load(config);
-                button.Load(config);
                 mainWindow.Load(config);
                 settingsWindow.Load(config);
                 helpWindow.Load(config);
@@ -284,7 +299,6 @@ namespace Tac
         {
             ConfigNode config = new ConfigNode();
             settings.Save(config);
-            button.Save(config);
             mainWindow.Save(config);
             settingsWindow.Save(config);
             helpWindow.Save(config);
@@ -292,10 +306,22 @@ namespace Tac
             config.Save(configFilename);
         }
 
-        private void OnIconClicked()
+		private void OnWindowClosed( object sender, EventArgs e )
+		{
+			button.SetOff( );
+		}
+
+		private void OnIconOpen( object sender, EventArgs e  )
         {
-            mainWindow.ToggleVisible();
+            mainWindow.SetVisible( true );
+			button.SetOn( );
         }
+		private void OnIconClose( object sender, EventArgs e  )
+		{
+			mainWindow.SetVisible( false );
+			button.SetOff( );
+		}
+
 
         private void AddResource(string resourceName, Part part, Dictionary<object,int> shipIds, Func<Part,string,PartResourceInfo> infoCreator)
         {
@@ -520,5 +546,99 @@ namespace Tac
                 }
             }
         }
+
+
+
+
+		/// <summary>
+		/// Initializes the toolbar button.
+		/// </summary>
+		private void InitButtons( )
+		{
+			this.Log( "InitButtons" );
+			RemoveButtons( );
+			AddButtons( );
+			this.Log( "InitButtons Done" );
+		}
+
+
+
+		/// <summary>
+		/// Add the buttons
+		/// </summary>
+		private void AddButtons( )
+		{
+			button = new UnifiedButton( );
+			button.UseBlizzyIfPossible = true;
+
+			if( BlizzysToolbarButton.IsAvailable )
+			{
+				var texturePath = "TacFuelBalancer/icon-tac-fuel-small.png";
+				if( !GameDatabase.Instance.ExistsTexture( texturePath ) )
+				{
+					var texture = TextureHelper.FromResource( "Tac.icons.icon-tac-fuel-small.png", 24, 24 );
+					var ti = new GameDatabase.TextureInfo( null, texture, false, true, true );
+					ti.name = texturePath;
+					GameDatabase.Instance.databaseTexture.Add( ti );
+				}
+				this.Log( "Load : Blizzy texture" );
+
+
+				button.BlizzyToolTip = "TAC Fuel Balancer";
+				button.BlizzyText = "TAC Fuel Balancer";
+				button.BlizzyTexturePath = texturePath;
+				button.BlizzyVisibility = new GameScenesVisibility( GameScenes.FLIGHT );
+				this.Log( "Load : Set Blizzy Stuff" );
+			}
+
+
+
+
+			var StockTexture = TextureHelper.FromResource( "Tac.icons.icon-tac-fuel.png", 38, 38 );
+			if( StockTexture != null )
+				this.Log( "Load : Stock texture" );
+			else
+				this.Log( "Load : cant load texture" );
+			button.LauncherTexture = StockTexture;
+			button.LauncherVisibility =
+				ApplicationLauncher.AppScenes.FLIGHT |
+				ApplicationLauncher.AppScenes.MAPVIEW;
+			this.Log( "Load : Set Stock Stuff" );
+
+
+			button.ButtonOn += OnIconOpen;
+			button.ButtonOff += OnIconClose;
+			button.Add( );
+
+		}
+
+
+
+		/// <summary>
+		/// Remove the buttons
+		/// </summary>
+		private void RemoveButtons( )
+		{
+			if( button != null )
+			{
+				button.ButtonOn -= OnIconOpen;
+				button.ButtonOff -= OnIconClose;
+				button.Remove( );
+				button = null;
+			}
+		}
+
+
+		// F2 support
+		void OnHideUI( )
+		{
+			UiHidden = true;
+		}
+		void OnShowUI( )
+		{
+			UiHidden = false;
+		}
+
+
     }
 }
