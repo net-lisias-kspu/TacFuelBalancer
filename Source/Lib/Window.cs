@@ -249,7 +249,7 @@ namespace Tac
         }
 		private void OnClose( EventArgs e )
 		{
-			this.Log( "Window Closed" );
+//			this.Log( "Window Closed" );
 			if( WindowClosed != null )
 				WindowClosed( this, e );
 		}

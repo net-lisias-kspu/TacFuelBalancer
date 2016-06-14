@@ -18,6 +18,9 @@ namespace Tac
 			public Texture2D						LauncherTexture;
 			public ApplicationLauncher.AppScenes	LauncherVisibility;
 
+
+			public string							BlizzyNamespace;
+			public string							BlizzyButtonId;
 			public string							BlizzyTexturePath;
 			public GameScenesVisibility				BlizzyVisibility;
 			public string							BlizzyToolTip;
@@ -87,20 +90,6 @@ namespace Tac
 			return _button.IsEnabled( );
 		}
 
-/*		private void Settings_UseBlizzysToolbarChanged( object sender, EventArgs e )
-		{
-			InitializeButton( );
-
-
-			// Need to set this
-			if( _window.IsVisible )
-				_button.SetOn( );
-			else
-				_button.SetOff( );
-		}*/
-
-
-
 
 		private void InitializeButton( )
 		{
@@ -109,7 +98,10 @@ namespace Tac
 				Remove( );
 
 			if( UseBlizzyIfPossible && BlizzysToolbarButton.IsAvailable )
-				_button = new BlizzysToolbarButton( BlizzyToolTip, BlizzyText, BlizzyTexturePath, BlizzyVisibility );
+				_button = new BlizzysToolbarButton
+				(
+					BlizzyNamespace, BlizzyButtonId, BlizzyToolTip, BlizzyText, BlizzyTexturePath, BlizzyVisibility
+				);
 			else
 				_button = new AppLauncherButton( LauncherTexture, LauncherVisibility );
 

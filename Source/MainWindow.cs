@@ -50,6 +50,7 @@ namespace Tac
 
 		private GUIContent settingsContent;
 		private GUIContent helpContent;
+		private GUIContent resetContent;
 
         public ResourceInfo lastResourceClicked;
         public ResourcePartMap lastPartClicked;
@@ -71,13 +72,13 @@ namespace Tac
 			var helptexture = TextureHelper.FromResource( "Tac.icons.help.png", 16, 16 );
 			helpContent = ( helptexture != null ) ? new GUIContent( helptexture, "Settings window" ) : new GUIContent( "?", "Help window" );
 
-
-        }
+			var resettexture = TextureHelper.FromResource( "Tac.icons.reset.png", 16, 16 );
+			resetContent = ( resettexture != null ) ? new GUIContent( resettexture, "Reset resource lists" ) : new GUIContent( "?", "Reset resource lists" );
+		}
 
         public override void SetVisible(bool newValue)
         {
             base.SetVisible(newValue);
-
             if (!newValue)
             {
                 settingsWindow.SetVisible(false);
@@ -295,7 +296,14 @@ namespace Tac
             }
             GUILayout.EndHorizontal();
 
-            if( GUI.Button( new Rect( windowPos.width - 48, 4, 20, 20 ), settingsContent, closeButtonStyle ) )
+
+
+			// Extra title bar buttons
+			if( GUI.Button( new Rect( windowPos.width - 72, 4, 20, 20 ), resetContent, closeButtonStyle ) )
+			{
+				controller.RebuildActiveVesselLists( );
+			}
+			if( GUI.Button( new Rect( windowPos.width - 48, 4, 20, 20 ), settingsContent, closeButtonStyle ) )
             {
                 settingsWindow.SetVisible( true );
             }

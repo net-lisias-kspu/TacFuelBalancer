@@ -1,6 +1,18 @@
 Tac Fuel Balancer
 =================
 
+2.7
+---
+14-June-2016 Built against KSP V1.1.2
+
+* Stock toolbar "Launcher" button
+* New icon set
+* F2 support
+* Reset button
+* Support for mods that change tank contents
+
+
+
 2.6
 ---
 10-May-2016 Built against KSP V1.1.2

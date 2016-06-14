@@ -2,11 +2,17 @@
 [DONE] Button Visibility functions - So I'm using "Enabled/Disabled"
 [DONE] New Icon for stock toolbar
 [DONE] Close button is not quite right
+[DONE] New window titlebar
+[DONE] UnifiedButton doesn't take Blizzy NameSpace and Id
 
-UnifiedButton doesn't take Blizzy NameSpace and Id
+Help, settings buttons should toggle windows
+Tool tips
+Resource buttons to be tabs by default
 
 Integrate with Career
 Always available setting
 
+Hilighting - Less clunky somehow
 
-New window titlebar
+Add actions to tanks rightclick menu and keys 1-0
+

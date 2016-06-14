@@ -21,6 +21,8 @@ namespace Tac
 		{
 			var tex = new Texture2D( width, height, TextureFormat.ARGB32, false );
 			var iconStream = Assembly.GetExecutingAssembly( ).GetManifestResourceStream( resource ).ReadToEnd( );
+			if( iconStream == null )
+				return null;
 			tex.LoadImage( iconStream );
 			tex.Apply();
 			return tex;

@@ -81,12 +81,14 @@
     <EmbeddedResource Include="icons\close.png" />
     <EmbeddedResource Include="icons\help.png" />
     <EmbeddedResource Include="icons\settings.png" />
+    <EmbeddedResource Include="icons\reset.png" />
     <Content Include="ToDo.txt" />
     <EmbeddedResource Include="icons\resize.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameData\TacFuelBalancer\Readme.md" />
     <None Include="GameData\TacFuelBalancer\TacFuelBalancer.version" />
+    <None Include="GameData\TacFuelBalancer\TacFuelBalancerChanges.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GameData\TacFuelBalancer\PluginData\TacFuelBalancer\" />

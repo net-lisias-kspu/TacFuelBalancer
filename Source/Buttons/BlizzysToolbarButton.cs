@@ -8,6 +8,8 @@ namespace Tac
 	{
 		private IButton					_button;
 		private bool					_open;
+		private string					_Namespace;
+		private string					_ButtonId;
 		private string					_ButtonToolTip;
 		private string					_ButtonText;
 		private string					_TexturePath;
@@ -18,9 +20,11 @@ namespace Tac
 		/// <summary>
 		/// Creates a new instance of the BlizzysToolbarButton class.
 		/// </summary>
-		public BlizzysToolbarButton( string ButtonToolTip, string ButtonText, string TexturePath, GameScenesVisibility Visibility )
+		public BlizzysToolbarButton( string Namespace, string ButtonId, string ButtonToolTip, string ButtonText, string TexturePath, GameScenesVisibility Visibility )
 		{
-			_logger = new Logger(this);
+			_logger = new Logger( this );
+			_Namespace = Namespace;
+			_ButtonId = ButtonId;
 			_ButtonToolTip = ButtonToolTip;
 			_ButtonText = ButtonText;
 			_TexturePath = TexturePath;
@@ -58,7 +62,7 @@ namespace Tac
 				return;
 			}
 
-			_button = ToolbarManager.Instance.add( "TACFuelBalancer", "button" );
+			_button = ToolbarManager.Instance.add( _Namespace, _ButtonId );
 			_button.ToolTip = _ButtonToolTip;
 			_button.Text = _ButtonText;
 			_button.TexturePath = _TexturePath;

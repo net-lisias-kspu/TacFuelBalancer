@@ -75,6 +75,7 @@ namespace Tac
         private VesselInfo vesselInfo;
         private readonly List<VesselInfo> recentVessels = new List<VesselInfo>(MaxRecentVessels);
 		private bool UiHidden;
+		private DateTime? _nextListRebuild;
 
 
 
@@ -89,9 +90,9 @@ namespace Tac
             helpWindow = new HelpWindow();
             mainWindow = new MainWindow(this, settings, settingsWindow, helpWindow);
 			mainWindow.WindowClosed += OnWindowClosed;
-			this.Log( "Making Buttons" );
+//			this.Log( "Making Buttons" );
 			InitButtons( );
-			this.Log( "Made Buttons" );
+//			this.Log( "Made Buttons" );
             
             vesselInfo = new VesselInfo( );
         }
@@ -100,7 +101,7 @@ namespace Tac
 
         void Start()
         {
-            this.Log("Start");
+            this.Log( "Start" );
             Load( );
 
 
@@ -110,7 +111,8 @@ namespace Tac
 			UiHidden = false;
 
             // Make sure the resource/part list is correct after other mods, such as StretchyTanks, do their thing.
-            Invoke("RebuildActiveVesselLists", 1.0f);
+//			this.Log( "Need RebuildActiveVesselLists" );
+			_nextListRebuild = DateTime.Now.AddSeconds( 2 );
         }
 
         void OnDestroy()
@@ -149,7 +151,37 @@ namespace Tac
                 this.Log("No active vessel yet.");
                 return;
             }
-            else if (activeVessel.isEVA)
+
+
+			// This shouldn't prevent fuel being pumped around when the window is closed.
+			// This update is scheduled within Start()
+			// But we can't get to work immediatly because the ship gets modified by addons.
+			// We need to wait until they have changed the size of all the tanks.
+			// As we don't save our state on the ship all instructions to pump fuel happen via the FB window.
+			// By the time a user has opened the window the ship will have finished being modified
+			if( _nextListRebuild != null && _nextListRebuild.Value < DateTime.Now )
+			{
+				if( mainWindow.IsVisible( ) ) // Don't bother rebuilding the lists until the window is open
+				{
+					if( RebuildActiveVesselLists( ) )
+						_nextListRebuild = null; // Don't do it again
+					else
+						return;  // Don't continue
+				}
+				else
+					return; // Window isn't open
+			}
+
+
+
+			if( vesselInfo.vessel == null ) // Prevent exceptions
+				RebuildLists( activeVessel );
+			if( vesselInfo.vessel == null )
+				return; // Really don't want exceptions
+
+
+
+            if (activeVessel.isEVA)
             {
 				button.SetDisabled( );
 				button.SetOff( );
@@ -218,9 +250,12 @@ namespace Tac
 		{
 			if( !UiHidden )
 			{
-				mainWindow.DrawWindow( );
-				settingsWindow.DrawWindow( );
-				helpWindow.DrawWindow( );
+				if( vesselInfo.vessel != null ) // Prevent exceptions
+				{
+					mainWindow.DrawWindow( );
+					settingsWindow.DrawWindow( );
+					helpWindow.DrawWindow( );
+				}
 			}
 		}
 
@@ -323,6 +358,8 @@ namespace Tac
 		}
 
 
+
+		// Actually this most often does a refresh of an already added tank
         private void AddResource(string resourceName, Part part, Dictionary<object,int> shipIds, Func<Part,string,PartResourceInfo> infoCreator)
         {
             ResourceInfo resourceInfo;
@@ -335,14 +372,25 @@ namespace Tac
             if (partInfo == null)
             {
                 resourceParts.Add(new ResourcePartMap(infoCreator(part, resourceName), part, shipIds[part]));
+
+//				string ToLog = "ADD " + part.name + " - " + resourceName;
+//				if( part.Resources.Contains( resourceName ) ) // _RocketFuel does't exist
+//					ToLog += ":" + part.Resources[ resourceName ].amount.ToString( );
+//				this.Log( ToLog );
             }
             else
             {
                 // Make sure we are still pointing at the right resource instance. This is a fix for compatibility with StretchyTanks.
                 partInfo.resource.Refresh(part);
+//				string ToLog = "REFRESH " + part.name + " - " + resourceName;
+//				if( part.Resources.Contains( resourceName ) ) // _RocketFuel does't exist
+//					ToLog += ":" + part.Resources[ resourceName ].amount.ToString( );
+//				this.Log( ToLog );
             }
         }
         
+
+
         private static string GetResourceTitle(string resourceName)
         {
             switch (resourceName)
@@ -355,6 +403,8 @@ namespace Tac
                 default: return resourceName;
             }
         }
+
+
 
         private void RebuildLists(Vessel vessel)
         {
@@ -383,32 +433,103 @@ namespace Tac
                     recentVessels.RemoveAt(0);
                 }
             }
-            
+
+
+
+		// Remove parts that don't exist any more
             List<string> toDelete = new List<string>();
             foreach (KeyValuePair<string, ResourceInfo> resourceEntry in vesselInfo.resources)
             {
-                resourceEntry.Value.parts.RemoveAll(partInfo => !vessel.parts.Contains(partInfo.part));
+//				this.Log( "Removing Parts for: " + resourceEntry.Key );
+				resourceEntry.Value.parts.RemoveAll(partInfo => !vessel.parts.Contains(partInfo.part));
 
-                if (resourceEntry.Value.parts.Count == 0)
-                {
-                    toDelete.Add(resourceEntry.Key);
-                }
+				if (resourceEntry.Value.parts.Count == 0)
+				{
+//					this.Log( "Remove: " + resourceEntry.Key );
+					toDelete.AddUnique(resourceEntry.Key);
+				}
             }
-
-            foreach (string resource in toDelete)
+		// See if we have eliminated a whole resource
+			foreach (string resource in toDelete)
             {
                 vesselInfo.resources.Remove(resource);
+//				this.Log( "Removed: " + resource );
             }
 
+
+
+		// If tanks change their contents then we need to keep up.
+			toDelete.Clear( );
+            foreach( Part part in vessel.parts )
+            {
+				foreach( KeyValuePair<string, ResourceInfo> resourceEntry in vesselInfo.resources )
+				{
+					if( resourceEntry.Key == "_RocketFuel" ) // "_RocketFuel" isn't real
+					{
+						List<ResourcePartMap> PartsToRemove = new List<ResourcePartMap>( );
+						foreach( ResourcePartMap pi in resourceEntry.Value.parts )
+						{
+							if( pi.part == part )
+							{
+								if( !part.Resources.Contains( "Oxidizer" ) || !part.Resources.Contains( "LiquidFuel" ) )
+								{
+									PartsToRemove.Add( pi );
+//									this.Log( part.name + " changed" );
+								}
+							}
+						}
+						foreach( ResourcePartMap pi in PartsToRemove )
+							resourceEntry.Value.parts.Remove( pi );
+						if( resourceEntry.Value.parts.Count == 0 )
+						{
+//							this.Log( "Remove: " + resourceEntry.Key );
+							toDelete.AddUnique( resourceEntry.Key );
+						}
+					}
+					else
+					{
+						List<ResourcePartMap> PartsToRemove = new List<ResourcePartMap>( );
+						foreach( ResourcePartMap pi in resourceEntry.Value.parts )
+						{
+							if( pi.part == part )
+							{
+								if( !part.Resources.Contains( resourceEntry.Key ) )
+								{
+									PartsToRemove.Add( pi );
+//									this.Log( part.name + " changed" );
+								}
+							}
+						}
+						foreach( ResourcePartMap pi in PartsToRemove )
+							resourceEntry.Value.parts.Remove( pi );
+						if( resourceEntry.Value.parts.Count == 0 )
+						{
+//							this.Log( "Remove: " + resourceEntry.Key );
+							toDelete.AddUnique( resourceEntry.Key );
+						}
+					}
+				}
+			}
+		// See if we have eliminated a whole resource
+			foreach( string resource in toDelete )
+			{
+				vesselInfo.resources.Remove( resource );
+//				this.Log( "Removed: " + resource );
+			}
+
+
+
+		// Add all resources in all tanks
             Dictionary<object,int> shipIds = ComputeShipIds(vessel);
             foreach (Part part in vessel.parts)
             {
-                if (part.Resources.Contains("Oxidizer") && part.Resources.Contains("LiquidFuel"))
+				if (part.Resources.Contains("Oxidizer") && part.Resources.Contains("LiquidFuel"))
                 {
                     AddResource("_RocketFuel", part, shipIds, (p,n) => { var r = new RocketFuelResource(); r.Refresh(p); return r; });
                 }
                 foreach (PartResource resource in part.Resources)
                 {
+//this.Log( part.name + " - " + resource.resourceName + ":" + resource.amount.ToString( ) );
                     // skip the electric charge resource of engines with alternators, because they can't be balanced.
                     // any charge placed in an alternator just disappears
                     if (resource.resourceName == "ElectricCharge" && part.Modules.GetModules<ModuleAlternator>().Count != 0)
@@ -425,12 +546,19 @@ namespace Tac
             vesselInfo.lastSituation = vessel.situation;
         }
 
-        private void RebuildActiveVesselLists()
+
+
+		public bool RebuildActiveVesselLists( )
         {
+//			this.Log( "RebuildActiveVesselLists" );
             if (FlightGlobals.ready && FlightGlobals.fetch.activeVessel != null)
             {
                 RebuildLists(FlightGlobals.fetch.activeVessel);
+//				this.Log( "RebuildActiveVesselLists OK" );
+				return true;
             }
+//			this.Log( "RebuildActiveVesselLists FAILED" );
+			return false;
         }
         
         private void BalanceResources(double maxFlow, List<ResourcePartMap> balanceParts)
@@ -555,10 +683,10 @@ namespace Tac
 		/// </summary>
 		private void InitButtons( )
 		{
-			this.Log( "InitButtons" );
+//			this.Log( "InitButtons" );
 			RemoveButtons( );
 			AddButtons( );
-			this.Log( "InitButtons Done" );
+//			this.Log( "InitButtons Done" );
 		}
 
 
@@ -581,29 +709,31 @@ namespace Tac
 					ti.name = texturePath;
 					GameDatabase.Instance.databaseTexture.Add( ti );
 				}
-				this.Log( "Load : Blizzy texture" );
+//				this.Log( "Load : Blizzy texture" );
 
 
+				button.BlizzyNamespace = "Tac";
+				button.BlizzyButtonId = "FB";
 				button.BlizzyToolTip = "TAC Fuel Balancer";
 				button.BlizzyText = "TAC Fuel Balancer";
 				button.BlizzyTexturePath = texturePath;
 				button.BlizzyVisibility = new GameScenesVisibility( GameScenes.FLIGHT );
-				this.Log( "Load : Set Blizzy Stuff" );
+//				this.Log( "Load : Set Blizzy Stuff" );
 			}
 
 
 
 
 			var StockTexture = TextureHelper.FromResource( "Tac.icons.icon-tac-fuel.png", 38, 38 );
-			if( StockTexture != null )
+/*			if( StockTexture != null )
 				this.Log( "Load : Stock texture" );
 			else
-				this.Log( "Load : cant load texture" );
+				this.Log( "Load : cant load texture" );*/
 			button.LauncherTexture = StockTexture;
 			button.LauncherVisibility =
 				ApplicationLauncher.AppScenes.FLIGHT |
 				ApplicationLauncher.AppScenes.MAPVIEW;
-			this.Log( "Load : Set Stock Stuff" );
+//			this.Log( "Load : Set Stock Stuff" );
 
 
 			button.ButtonOn += OnIconOpen;

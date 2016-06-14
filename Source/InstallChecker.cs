@@ -24,7 +24,7 @@ namespace Tac
 
         protected void Start()
         {
-            this.Log("KSPUtil.ApplicationRootPath = " + KSPUtil.ApplicationRootPath);
+ //           this.Log("KSPUtil.ApplicationRootPath = " + KSPUtil.ApplicationRootPath);
 
             // Search for this mod's DLL existing in the wrong location. This will also detect duplicate copies because only one can be in the right place.
             var assemblies = AssemblyLoader.loadedAssemblies.Where(a => a.assembly.GetName().Name == Assembly.GetExecutingAssembly().GetName().Name).Where(a => a.url != expectedPath);
