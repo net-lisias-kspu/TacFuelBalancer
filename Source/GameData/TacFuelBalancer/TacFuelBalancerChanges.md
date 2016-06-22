@@ -1,6 +1,16 @@
 Tac Fuel Balancer
 =================
 
+2.8
+---
+22-June-2016 Built against KSP V1.1.3
+
+* Resource buttons act like tabs by default
+* Help and settings buttons toggle visibility
+* ToolTips
+
+
+
 2.7
 ---
 14-June-2016 Built against KSP V1.1.2

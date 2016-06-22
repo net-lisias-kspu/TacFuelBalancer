@@ -4,10 +4,12 @@
 [DONE] Close button is not quite right
 [DONE] New window titlebar
 [DONE] UnifiedButton doesn't take Blizzy NameSpace and Id
+[DONE] Help, settings buttons should toggle windows
+[DONE] Tool tips
+[DONE] Resource buttons to be tabs by default
 
-Help, settings buttons should toggle windows
-Tool tips
-Resource buttons to be tabs by default
+More Tooltips funcs in Utilities to take a GuiContent
+	var toggle = GUILayout.Toggle( Config.HideCompleteExperiments, new GUIContent( "Hide complete experiments", "Experiments considered complete will not be shown." ) );
 
 Integrate with Career
 Always available setting

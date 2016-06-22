@@ -37,16 +37,20 @@ namespace Tac
     {
         private string windowTitle;
         private int windowId;
+		private readonly int _tooltipWindowId = UnityEngine.Random.Range( 0, int.MaxValue );
         private string configNodeName;
         protected Rect windowPos;
         private bool mouseDown;
         private bool visible;
+		protected string _lastTooltip;
 
+		protected GUISkin _skin;
         protected GUIStyle closeButtonStyle;
 		protected GUIContent closeContent;
         private GUIStyle resizeStyle;
         private GUIContent resizeContent;
-		
+		private GUIStyle _tooltipStyle;
+		private GUIStyle _tooltipBoxStyle;
 
         public bool Resizable { get; set; }
         public bool HideCloseButton { get; set; }
@@ -164,32 +168,72 @@ namespace Tac
 
                 if (!paused)
                 {
-                    GUI.skin = HighLogic.Skin;
                     ConfigureStyles();
+					var oldSkin = GUI.skin;
+					GUI.skin = _skin;
 
                     windowPos = Utilities.EnsureVisible(windowPos);
                     windowPos = GUILayout.Window(windowId, windowPos, PreDrawWindowContents, windowTitle, GUILayout.ExpandWidth(true),
                         GUILayout.ExpandHeight(true), GUILayout.MinWidth(64), GUILayout.MinHeight(64));
+
+
+					if( !string.IsNullOrEmpty( _lastTooltip ) )
+					{
+						_tooltipStyle = _tooltipStyle ?? new GUIStyle( GUI.skin.window )
+						{
+							normal =
+							{
+								background = GUI.skin.window.normal.background
+							},
+							wordWrap = true
+						};
+
+							_tooltipBoxStyle = _tooltipBoxStyle ?? new GUIStyle( GUI.skin.box )
+						{
+							// int left, int right, int top, int bottom
+							padding = new RectOffset( 4, 4, 4, 4 ),
+							wordWrap = true
+						};
+
+						float boxHeight = _tooltipBoxStyle.CalcHeight( new GUIContent( _lastTooltip ), 190 );
+						GUI.Window( _tooltipWindowId, new Rect( Mouse.screenPos.x + 15, Mouse.screenPos.y + 15, 200, boxHeight + 10 ), x =>
+						{
+							GUI.Box( new Rect( 5, 5, 190, boxHeight ), _lastTooltip, _tooltipBoxStyle );
+						}, string.Empty, _tooltipStyle );
+					}
+
+
+
+					GUI.skin = oldSkin;
                 }
             }
         }
 
         protected virtual void ConfigureStyles()
         {
-            if (closeButtonStyle == null)
-            {
-                closeButtonStyle = new GUIStyle(GUI.skin.button);
-                closeButtonStyle.padding = new RectOffset(2, 2, 2, 2);
-                closeButtonStyle.margin = new RectOffset(1, 1, 1, 1);
-                closeButtonStyle.stretchWidth = false;
-                closeButtonStyle.stretchHeight = false;
-                closeButtonStyle.alignment = TextAnchor.MiddleCenter;
+			if( _skin == null )
+			{
+				// Initialize our skin and styles.
+				_skin = GameObject.Instantiate(HighLogic.Skin) as GUISkin;
 
-                resizeStyle = new GUIStyle(GUI.skin.label);
-                resizeStyle.alignment = TextAnchor.MiddleCenter;
-                resizeStyle.padding = new RectOffset(1, 1, 1, 1);
-            }
+	            if (closeButtonStyle == null)
+	            {
+					closeButtonStyle = new GUIStyle(_skin.button);
+	                closeButtonStyle.padding = new RectOffset(2, 2, 2, 2);
+	                closeButtonStyle.margin = new RectOffset(1, 1, 1, 1);
+	                closeButtonStyle.stretchWidth = false;
+	                closeButtonStyle.stretchHeight = false;
+	                closeButtonStyle.alignment = TextAnchor.MiddleCenter;
+				}
+				if( resizeStyle == null )
+				{
+					resizeStyle = new GUIStyle(_skin.label);
+	                resizeStyle.alignment = TextAnchor.MiddleCenter;
+	                resizeStyle.padding = new RectOffset(1, 1, 1, 1);
+          		}
+        	}
         }
+
 
         private void PreDrawWindowContents(int windowId)
         {
@@ -211,7 +255,17 @@ namespace Tac
 
                 HandleWindowEvents(resizeRect);
             }
+			if( Event.current.type == EventType.Repaint && GUI.tooltip != _lastTooltip )
+			{
+				_lastTooltip = GUI.tooltip;
+			}
 
+			// If this window gets focus, it pushes the tooltip behind the window, which looks weird.
+			// Just hide the tooltip while mouse buttons are held down to avoid this.
+			if( Input.GetMouseButton( 0 ) || Input.GetMouseButton( 1 ) || Input.GetMouseButton( 2 ) )
+			{
+				_lastTooltip = string.Empty;
+			}
             GUI.DragWindow();
         }
 

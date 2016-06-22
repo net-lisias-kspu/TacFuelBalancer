@@ -70,7 +70,7 @@ namespace Tac
 			settingsContent = ( settingstexture != null ) ? new GUIContent( settingstexture, "Settings window" ) : new GUIContent( "S", "Settings window" );
 
 			var helptexture = TextureHelper.FromResource( "Tac.icons.help.png", 16, 16 );
-			helpContent = ( helptexture != null ) ? new GUIContent( helptexture, "Settings window" ) : new GUIContent( "?", "Help window" );
+			helpContent = ( helptexture != null ) ? new GUIContent( helptexture, "Help window" ) : new GUIContent( "?", "Help window" );
 
 			var resettexture = TextureHelper.FromResource( "Tac.icons.reset.png", 16, 16 );
 			resetContent = ( resettexture != null ) ? new GUIContent( resettexture, "Reset resource lists" ) : new GUIContent( "?", "Reset resource lists" );
@@ -99,7 +99,7 @@ namespace Tac
 
             if (buttonStyle == null)
             {
-                buttonStyle = new GUIStyle(GUI.skin.button);
+                buttonStyle = new GUIStyle(_skin.button);
                 buttonStyle.alignment = TextAnchor.LowerCenter;
                 buttonStyle.fontStyle = FontStyle.Normal;
                 buttonStyle.padding.top = 3;
@@ -107,24 +107,24 @@ namespace Tac
                 buttonStyle.stretchWidth = false;
                 buttonStyle.stretchHeight = false;
 
-                labelStyle = new GUIStyle(GUI.skin.label);
+				labelStyle = new GUIStyle( _skin.label );
                 labelStyle.alignment = TextAnchor.MiddleRight;
                 labelStyle.fontStyle = FontStyle.Normal;
                 labelStyle.wordWrap = false;
 
-                sectionStyle = new GUIStyle(GUI.skin.label);
+				sectionStyle = new GUIStyle( _skin.label );
                 sectionStyle.alignment = TextAnchor.LowerLeft;
                 sectionStyle.fontStyle = FontStyle.Bold;
                 sectionStyle.padding.top += 2;
                 sectionStyle.normal.textColor = Color.white;
                 sectionStyle.wordWrap = false;
 
-                popupButtonStyle = new GUIStyle(GUI.skin.button);
+				popupButtonStyle = new GUIStyle( _skin.button );
                 popupButtonStyle.alignment = TextAnchor.MiddleCenter;
                 popupButtonStyle.margin = new RectOffset(2, 2, 2, 2);
                 popupButtonStyle.padding = new RectOffset(3, 3, 3, 0);
 
-                editStyle = new GUIStyle(GUI.skin.textField);
+				editStyle = new GUIStyle( _skin.textField );
                 editStyle.fontStyle = FontStyle.Normal;
             }
         }
@@ -305,11 +305,11 @@ namespace Tac
 			}
 			if( GUI.Button( new Rect( windowPos.width - 48, 4, 20, 20 ), settingsContent, closeButtonStyle ) )
             {
-                settingsWindow.SetVisible( true );
+                settingsWindow.ToggleVisible( );
             }
             if( GUI.Button( new Rect( windowPos.width - 24, 4, 20, 20 ), helpContent, closeButtonStyle ) )
             {
-                helpWindow.SetVisible( true );
+				helpWindow.ToggleVisible( );
             }
         }
 

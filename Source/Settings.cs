@@ -63,6 +63,7 @@ namespace Tac
             ShowCurrentAmount = true;
             ShowPercentFull = true;
             ShowDump = true;
+			OneTabOnly = true;
 
             BalanceIn = false;
             BalanceOut = false;

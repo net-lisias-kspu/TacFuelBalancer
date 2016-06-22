@@ -53,12 +53,12 @@ namespace Tac
 
             if (labelStyle == null)
             {
-                labelStyle = new GUIStyle(GUI.skin.label);
+                labelStyle = new GUIStyle(_skin.label);
                 labelStyle.wordWrap = false;
                 labelStyle.fontStyle = FontStyle.Normal;
                 labelStyle.normal.textColor = Color.white;
 
-                editStyle = new GUIStyle(GUI.skin.textField);
+                editStyle = new GUIStyle(_skin.textField);
 
                 versionStyle = Utilities.GetVersionStyle();
             }

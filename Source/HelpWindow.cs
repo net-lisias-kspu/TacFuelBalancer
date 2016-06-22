@@ -49,7 +49,7 @@ namespace Tac
 
             if (labelStyle == null)
             {
-                labelStyle = new GUIStyle(GUI.skin.label);
+                labelStyle = new GUIStyle(_skin.label);
                 labelStyle.wordWrap = true;
                 labelStyle.fontStyle = FontStyle.Normal;
                 labelStyle.normal.textColor = Color.white;
