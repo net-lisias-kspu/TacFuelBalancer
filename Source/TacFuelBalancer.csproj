@@ -110,8 +110,8 @@
     <KspVersionPatch>2</KspVersionPatch>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Games\KSP\KSP_Real\GameData\TacFuelBalancer"
-robocopy "$(ProjectDir)\GameData\TacFuelBalancer" "C:\Games\KSP\KSP_Real\GameData\TacFuelBalancer" /s /e
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Games\KSP\KSP_Test\GameData\TacFuelBalancer"
+robocopy "$(ProjectDir)\GameData\TacFuelBalancer" "C:\Games\KSP\KSP_Test\GameData\TacFuelBalancer" /s /e
 
 exit 0</PostBuildEvent>
   </PropertyGroup>

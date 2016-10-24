@@ -1,5 +1,18 @@
 Tac Fuel Balancer
 =================
+2.10
+----
+xxx-Oct-2016 Built against KSP V1.2
+* Fix for Contract Configurator/Toolbar bug
+
+
+
+2.9
+---
+15-Oct-2016 Built against KSP V1.2
+* Rebuilt for KSP 1.2
+
+
 
 2.8
 ---
