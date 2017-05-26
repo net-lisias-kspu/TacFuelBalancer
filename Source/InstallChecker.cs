@@ -35,10 +35,11 @@ namespace Tac
 				(
 					new Vector2( 0.5f, 0.5f ),
 					new Vector2( 0.5f, 0.5f ),
+					"test",
 					"Incorrect " + modName + " Installation",
                     modName + " has been installed incorrectly and will not function properly. All files should be located in KSP/GameData/" + expectedPath + ". Do not move any files from inside that folder.\n\nIncorrect path(s):\n" + String.Join("\n", badPaths.ToArray()),
-                    "OK",
-					false,
+					"OK",
+                    false,
 					HighLogic.UISkin
 				);
 
