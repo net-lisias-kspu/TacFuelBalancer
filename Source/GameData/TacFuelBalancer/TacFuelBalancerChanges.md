@@ -2,6 +2,14 @@ Tac Fuel Balancer
 =================
 
 
+
+2.17
+----
+03-Apr-2018 Built against KSP V1.4.2
+* Rebuilt for new version of KSP
+
+
+
 2.16
 ----
 16-Mar-2018 Built against KSP V1.4.1
