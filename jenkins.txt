@@ -31,7 +31,7 @@
 1:TacFuelBalancer, TacFuelBalancer.version
 
 # 2:PROJNAME, PROJFILE, VERSIONFILE, PLUGINSFOLDER
-2:TacFuelBalancer,TacFuelBalancer/TacFuelBalancer.csproj,TacFuelBalancer.version,GameData/TacFuelBalancer/Plugins
+2:TacFuelBalancer,Source/TacFuelBalancer.csproj,TacFuelBalancer.version,GameData/TacFuelBalancer/Plugins
 
 # 3:SOURCEFILE, DESTDIR
 3:TacFuelBalancer.version,GameData/TacFuelBalancer
