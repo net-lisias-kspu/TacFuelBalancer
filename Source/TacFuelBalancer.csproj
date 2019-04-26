@@ -33,21 +33,26 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Games\KSP\KSP_Real\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>R:\KSP_1.6.1_dev\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Games\KSP\KSP_Real\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>R:\KSP_1.6.1_dev\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Games\KSP\KSP_Real\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>R:\KSP_1.6.1_dev\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyVersion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyVersion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Buttons\AppLauncherButton.cs" />
     <Compile Include="Buttons\BlizzysToolbarButton.cs" />
     <Compile Include="Buttons\IToolbarButton.cs" />
@@ -71,6 +76,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
+    </Content>
     <Content Include="GameData\TacFuelBalancer\LICENSE.txt" />
     <Content Include="GameData\TacFuelBalancer\MiniAVC.dll" />
     <EmbeddedResource Include="icons\icon-tac-fuel-small.png" />
@@ -89,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GameData\TacFuelBalancer\PluginData\TacFuelBalancer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -110,14 +122,20 @@
     <KspVersionPatch>2</KspVersionPatch>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>SET PATHOUT=C:\Games\KSP\KSP_Test\GameData\TacFuelBalancer
-IF NOT EXIST %25PATHOUT%25 (
-MKDIR "%25PATHOUT%25"
-) 
+    <PostBuildEvent>
+start /D D:\Users\jbb\github\TacFuelBalancer /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
 
-copy "$(TargetPath)" "%25PATHOUT%25"
-robocopy "$(ProjectDir)\GameData\TacFuelBalancer" "%25PATHOUT%25" /s /e
+if $(ConfigurationName) == Release (
 
-exit 0</PostBuildEvent>
+	start /D D:\Users\jbb\github\TacFuelBalancer /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+
+)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE\texttransform.exe"
+
+%25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
