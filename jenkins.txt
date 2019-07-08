@@ -55,6 +55,8 @@
 # 8: AdditionalMods to include
 #8:ConnectedLivingSpace
 
+DO:1.5.1
+DO:1.6.1
 #
 # End of file
 #
