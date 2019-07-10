@@ -46,7 +46,7 @@ but can be dragged to anywhere along any edge.
 
 Click the button at the end of a row, and:
 * Highlight - highlights the part so you can find it.
-* Edit - edit the amount in the part (only available Prelaunch or when Landed).
+* Edit - edit the amount in the part (only available Prelaunch or when Landed, and when in sandbox)
 * Lock - prevents it from transferring the resource into or out of the part.
 * In - transfers the resource into the part, taking an equal amount from each other part.
 * Out - transfers the resource out of the part, putting an equal amount in each other part.

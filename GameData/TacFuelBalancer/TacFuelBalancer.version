@@ -1,18 +1,19 @@
 {
 	"NAME":		"TAC Fuel Balancer",
-	"URL":		"https://themoose.co.uk/ksp/TacFuelBalancer.version",
-	"DOWNLOAD":	"https://themoose.co.uk/ksp/downloads.html",
-	"CHANGE_LOG_URL":"https://themoose.co.uk/ksp/TacFuelBalancerChanges.md",
+	"URL":		"http://ksp.spacetux.net/avc/TacFuelBalancer",
+	"DOWNLOAD":	"https://spacedock.info/mod/640/TacFuelBalancer",
+	"CHANGE_LOG_URL":"https://raw.githubusercontent.com/linuxgurugamer/TacFuelBalancer/master/ChangeLog.txt",
 	"VERSION":
 	{
 		"MAJOR":2,
-		"MINOR":20,
-		"PATCH":0
+		"MINOR":21,
+		"PATCH":0,
+		"BUILD":0
 	},
-	"KSP_VERSION":
+	"KSP_VERSION_MIN":
 	{
 		"MAJOR": 1,
-		"MINOR": 4,
-		"PATCH": 5
+		"MINOR": 5,
+		"PATCH": 1
 	}
 }

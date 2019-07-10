@@ -28,7 +28,7 @@ using System;
 using UnityEngine;
 using KSP.IO;
 using KSP.UI.Dialogs;
-
+using ClickThroughFix;
 
 
 namespace Tac
@@ -170,38 +170,40 @@ namespace Tac
                 {
                     ConfigureStyles();
 					var oldSkin = GUI.skin;
-					GUI.skin = _skin;
+                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().useKSPskin)
+					    GUI.skin = _skin;
 
                     windowPos = Utilities.EnsureVisible(windowPos);
-                    windowPos = GUILayout.Window(windowId, windowPos, PreDrawWindowContents, windowTitle, GUILayout.ExpandWidth(true),
+                    windowPos = ClickThruBlocker.GUILayoutWindow(windowId, windowPos, PreDrawWindowContents, windowTitle, GUILayout.ExpandWidth(true),
                         GUILayout.ExpandHeight(true), GUILayout.MinWidth(64), GUILayout.MinHeight(64));
 
+                    if (FuelBalanceController.settings.ShowTooltips)
+                    {
+                        if (!string.IsNullOrEmpty(_lastTooltip))
+                        {
+                            _tooltipStyle = _tooltipStyle ?? new GUIStyle(GUI.skin.window)
+                            {
+                                normal =
+                            {
+                                background = GUI.skin.window.normal.background
+                            },
+                                wordWrap = true
+                            };
 
-					if( !string.IsNullOrEmpty( _lastTooltip ) )
-					{
-						_tooltipStyle = _tooltipStyle ?? new GUIStyle( GUI.skin.window )
-						{
-							normal =
-							{
-								background = GUI.skin.window.normal.background
-							},
-							wordWrap = true
-						};
+                            _tooltipBoxStyle = _tooltipBoxStyle ?? new GUIStyle(GUI.skin.box)
+                            {
+                                // int left, int right, int top, int bottom
+                                padding = new RectOffset(4, 4, 4, 4),
+                                wordWrap = true
+                            };
 
-							_tooltipBoxStyle = _tooltipBoxStyle ?? new GUIStyle( GUI.skin.box )
-						{
-							// int left, int right, int top, int bottom
-							padding = new RectOffset( 4, 4, 4, 4 ),
-							wordWrap = true
-						};
-
-						float boxHeight = _tooltipBoxStyle.CalcHeight( new GUIContent( _lastTooltip ), 190 );
-						GUI.Window( _tooltipWindowId, new Rect( Mouse.screenPos.x + 15, Mouse.screenPos.y + 15, 200, boxHeight + 10 ), x =>
-						{
-							GUI.Box( new Rect( 5, 5, 190, boxHeight ), _lastTooltip, _tooltipBoxStyle );
-						}, string.Empty, _tooltipStyle );
-					}
-
+                            float boxHeight = _tooltipBoxStyle.CalcHeight(new GUIContent(_lastTooltip), 190);
+                            ClickThruBlocker.GUIWindow(_tooltipWindowId, new Rect(Mouse.screenPos.x + 15, Mouse.screenPos.y + 15, 200, boxHeight + 10), x =>
+                         {
+                             GUI.Box(new Rect(5, 5, 190, boxHeight), _lastTooltip, _tooltipBoxStyle);
+                         }, string.Empty, _tooltipStyle);
+                        }
+                    }
 
 
 					GUI.skin = oldSkin;

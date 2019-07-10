@@ -98,6 +98,11 @@ namespace Tac
 
             GUILayout.Space(10);
 
+            settings.ShowToggles = GUILayout.Toggle(settings.ShowToggles, "Show Toggles");
+            settings.ShowTooltips = GUILayout.Toggle(settings.ShowTooltips, "Show Tooltips");
+
+            GUILayout.Space(10);
+
             settings.BalanceIn = GUILayout.Toggle(settings.BalanceIn, "Balance In's");
             settings.BalanceOut = GUILayout.Toggle(settings.BalanceOut, "Balance Out's");
 

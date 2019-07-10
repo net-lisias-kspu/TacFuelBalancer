@@ -44,6 +44,9 @@
     <Reference Include="ToolbarControl">
       <HintPath>R:\KSP_1.7.2_dev\GameData\001_ToolbarControl\Plugins\ToolbarControl.dll</HintPath>
     </Reference>
+    <Reference Include="unBlur.0.5.0">
+      <HintPath>R:\KSP_1.7.2_dev\GameData\unBlur.0.5.0.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>R:\KSP_1.7.2_dev\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
@@ -59,11 +62,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyVersion.tt</DependentUpon>
     </Compile>
-    <Compile Include="Buttons\AppLauncherButton.cs" />
-    <Compile Include="Buttons\BlizzysToolbarButton.cs" />
-    <Compile Include="Buttons\IToolbarButton.cs" />
-    <Compile Include="Buttons\ToolbarWrapper.cs" />
-    <Compile Include="Buttons\UnifiedButton.cs" />
     <Compile Include="InstallChecker.cs" />
     <Compile Include="Lib\Logger.cs" />
     <Compile Include="Lib\Logging.cs" />
@@ -74,10 +72,12 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="PartExtensions.cs" />
     <Compile Include="PopupWindow.cs" />
+    <Compile Include="RegisterToolbar.cs" />
     <Compile Include="SettingsWindow.cs" />
     <Compile Include="FuelBalanceController.cs" />
     <Compile Include="HelpWindow.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="StockSettings.cs" />
     <Compile Include="TacFuelBalancer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,15 +131,36 @@
     <PostBuildEvent>
 start /D D:\Users\jbb\github\TacFuelBalancer /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
 
+
+
+
+
+
+
+
 if $(ConfigurationName) == Release (
 
-	start /D D:\Users\jbb\github\TacFuelBalancer /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
 
-)</PostBuildEvent>
+
+
+
+
+     start /D D:\Users\jbb\github\TacFuelBalancer /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+
+
+
+
+
+
+)
+
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
 set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE\texttransform.exe"
+
+
 
 %25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"
 </PreBuildEvent>

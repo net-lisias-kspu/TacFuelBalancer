@@ -43,19 +43,21 @@ namespace Tac
         private Vector2 scrollPosition = Vector2.zero;
 
         private GUIStyle buttonStyle;
+        private GUIStyle coloredButtonStyle;
         private GUIStyle labelStyle;
         private GUIStyle sectionStyle;
         private GUIStyle popupButtonStyle;
         private GUIStyle editStyle;
 
-		private GUIContent settingsContent;
-		private GUIContent helpContent;
-		private GUIContent resetContent;
+        private GUIContent settingsContent;
+        private GUIContent helpContent;
+        private GUIContent resetContent;
 
         public ResourceInfo lastResourceClicked;
         public ResourcePartMap lastPartClicked;
         private double newAmount;
         private bool isControllable;
+
 
         public MainWindow(FuelBalanceController controller, Settings settings, SettingsWindow settingsWindow, HelpWindow helpWindow)
             : base("TAC Fuel Balancer", 500, 500)
@@ -64,17 +66,17 @@ namespace Tac
             this.settings = settings;
             this.settingsWindow = settingsWindow;
             this.helpWindow = helpWindow;
-            SetVisible( true );
+            SetVisible(true);
 
-			var settingstexture = TextureHelper.FromResource( "Tac.icons.settings.png", 16, 16 );
-			settingsContent = ( settingstexture != null ) ? new GUIContent( settingstexture, "Settings window" ) : new GUIContent( "S", "Settings window" );
+            var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
+            settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
 
-			var helptexture = TextureHelper.FromResource( "Tac.icons.help.png", 16, 16 );
-			helpContent = ( helptexture != null ) ? new GUIContent( helptexture, "Help window" ) : new GUIContent( "?", "Help window" );
+            var helptexture = TextureHelper.FromResource("Tac.icons.help.png", 16, 16);
+            helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
-			var resettexture = TextureHelper.FromResource( "Tac.icons.reset.png", 16, 16 );
-			resetContent = ( resettexture != null ) ? new GUIContent( resettexture, "Reset resource lists" ) : new GUIContent( "?", "Reset resource lists" );
-		}
+            var resettexture = TextureHelper.FromResource("Tac.icons.reset.png", 16, 16);
+            resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
+        }
 
         public override void SetVisible(bool newValue)
         {
@@ -107,38 +109,47 @@ namespace Tac
                 buttonStyle.stretchWidth = false;
                 buttonStyle.stretchHeight = false;
 
-				labelStyle = new GUIStyle( _skin.label );
+                coloredButtonStyle = new GUIStyle(buttonStyle);
+                coloredButtonStyle.normal.textColor = Color.yellow;
+                coloredButtonStyle.hover.textColor = Color.yellow;
+                coloredButtonStyle.active.textColor = Color.yellow;
+                coloredButtonStyle.fontStyle = FontStyle.Bold; ;
+
+                labelStyle = new GUIStyle(_skin.label);
                 labelStyle.alignment = TextAnchor.MiddleRight;
                 labelStyle.fontStyle = FontStyle.Normal;
                 labelStyle.wordWrap = false;
 
-				sectionStyle = new GUIStyle( _skin.label );
+                sectionStyle = new GUIStyle(_skin.label);
                 sectionStyle.alignment = TextAnchor.LowerLeft;
                 sectionStyle.fontStyle = FontStyle.Bold;
                 sectionStyle.padding.top += 2;
                 sectionStyle.normal.textColor = Color.white;
                 sectionStyle.wordWrap = false;
 
-				popupButtonStyle = new GUIStyle( _skin.button );
+                popupButtonStyle = new GUIStyle(_skin.button);
                 popupButtonStyle.alignment = TextAnchor.MiddleCenter;
                 popupButtonStyle.margin = new RectOffset(2, 2, 2, 2);
                 popupButtonStyle.padding = new RectOffset(3, 3, 3, 0);
 
-				editStyle = new GUIStyle( _skin.textField );
+                editStyle = new GUIStyle(_skin.textField);
                 editStyle.fontStyle = FontStyle.Normal;
             }
         }
-        
+
+        // avoid allocating new options and arrays for every cell
+        static GUILayoutOption[] width20 = new[] { GUILayout.Width(20) }, width46 = new[] { GUILayout.Width(46) }, width60 = new[] { GUILayout.Width(60) };
+
         protected override void DrawWindowContents(int windowID)
         {
             headerScrollPosition = GUILayout.BeginScrollView(headerScrollPosition, GUILayout.ExpandHeight(false));
             GUILayout.BeginHorizontal();
             List<ResourceInfo> sortedResources = controller.GetResourceInfo().Values.ToList();
-            sortedResources.Sort((a,b) => a.title.CompareTo(b.title));
+            sortedResources.Sort((a, b) => a.title.CompareTo(b.title));
             foreach (ResourceInfo resource in sortedResources)
             {
                 bool toggled = GUILayout.Toggle(resource.isShowing, resource.title, buttonStyle) != resource.isShowing;
-                if(toggled)
+                if (toggled)
                 {
                     SetResourceVisibility(resource, !resource.isShowing);
                     if (resource.isShowing && settings.OneTabOnly)
@@ -163,7 +174,7 @@ namespace Tac
             isControllable = controller.IsControllable();
 
             // avoid allocating new options and arrays for every cell
-            GUILayoutOption[] width20 = new[] { GUILayout.Width(20) }, width46 = new[] { GUILayout.Width(46) }, width60 = new[] { GUILayout.Width(60) };
+            //GUILayoutOption[] width20 = new[] { GUILayout.Width(20) }, width46 = new[] { GUILayout.Width(46) }, width60 = new[] { GUILayout.Width(60) };
             foreach (ResourceInfo resource in sortedResources)
             {
                 if (resource.isShowing)
@@ -177,11 +188,13 @@ namespace Tac
                     }
                     if (GUILayout.Button("Select All", buttonStyle))
                     {
-                        bool ctrl = Input.GetKey(KeyCode.LeftControl)  || Input.GetKey(KeyCode.RightControl);
+                        bool ctrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
                         SelectParts(resource, resource.parts, resource.parts.Any(p => !p.isSelected), ctrl);
                         ResetRangeSelection();
                     }
                     PopupWindow.Draw("Sort", windowPos, DrawSortMenu, buttonStyle, null);
+
+
                     GUILayout.EndHorizontal();
 
                     foreach (ResourcePartMap partInfo in resource.parts)
@@ -201,17 +214,17 @@ namespace Tac
                         {
                             labelStyle.normal.textColor = Color.white;
                         }
-                        
+
                         labelStyle.fontStyle = partInfo.isSelected ? FontStyle.Bold : FontStyle.Normal;
 
                         GUILayout.BeginHorizontal();
                         string partTitle = partInfo.part.partInfo.title;
 
-                        if(GUILayout.Button(partTitle.Substring(0, Math.Min(30, partTitle.Length)), labelStyle)) // if the user clicked an item name...
+                        if (GUILayout.Button(partTitle.Substring(0, Math.Min(30, partTitle.Length)), labelStyle)) // if the user clicked an item name...
                         {
-                            bool shift = Input.GetKey(KeyCode.LeftShift)    || Input.GetKey(KeyCode.RightShift);
-                            bool ctrl  = Input.GetKey(KeyCode.LeftControl)  || Input.GetKey(KeyCode.RightControl);
-                            bool alt   = Input.GetKey(KeyCode.LeftAlt)      || Input.GetKey(KeyCode.RightAlt);
+                            bool shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+                            bool ctrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+                            bool alt = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
                             if (alt) // alt-click selects either all parts on the same ship or all parts of the same type
                             {
                                 List<ResourcePartMap> parts;
@@ -221,7 +234,7 @@ namespace Tac
                                 }
                                 else
                                 {
-                                    parts = resource.parts.FindAll(p => p.shipId == partInfo.shipId);   
+                                    parts = resource.parts.FindAll(p => p.shipId == partInfo.shipId);
                                 }
                                 SelectParts(resource, parts, parts.Any(p => !p.isSelected), ctrl); // select all those parts if any is unselected
                                 ResetRangeSelection();
@@ -233,8 +246,8 @@ namespace Tac
                                 if (shift && resource == lastResourceClicked && partInfo != lastPartClicked && lastPartClicked != null)
                                 {
                                     int partIndex = resource.parts.IndexOf(partInfo), lastIndex = resource.parts.IndexOf(lastPartClicked);
-                                    if(lastIndex < 0) lastIndex = partIndex;
-                                    parts = resource.parts.GetRange(Math.Min(partIndex, lastIndex), Math.Abs(partIndex-lastIndex)+1);
+                                    if (lastIndex < 0) lastIndex = partIndex;
+                                    parts = resource.parts.GetRange(Math.Min(partIndex, lastIndex), Math.Abs(partIndex - lastIndex) + 1);
                                 }
                                 else
                                 {
@@ -242,10 +255,10 @@ namespace Tac
                                 }
                                 SelectParts(resource, parts, !partInfo.isSelected || !ctrl && resource.parts.Count(p => p.isSelected) > parts.Count, ctrl);
                                 lastResourceClicked = resource;
-                                lastPartClicked     = partInfo;
+                                lastPartClicked = partInfo;
                             }
                         }
-                       
+
                         GUILayout.FlexibleSpace();
                         if (settings.ShowShipNumber)
                         {
@@ -267,7 +280,45 @@ namespace Tac
                         {
                             GUILayout.Label(percentFull.ToString("N1") + "%", labelStyle, width46);
                         }
-                        PopupWindow.Draw(GetControlText(partInfo), windowPos, DrawPopupContents, buttonStyle, partInfo, width20);
+
+                        GUILayout.Space(10);
+                        //  Lock, Transfer In, Transfer Out, Balance, Dump, Highlight, then maybe Edit...??
+
+                        if (settings.ShowToggles)
+                        {
+                            List<ResourcePartMap> l2_parts = partInfo.isSelected ? EnumerateSelectedParts().ToList() : new List<ResourcePartMap>(1) { partInfo };
+                            bool canPump = true, allHighlighted = true;
+                            foreach (ResourcePartMap part in l2_parts)
+                            {
+                                canPump &= part.resource.TransferMode == ResourceTransferMode.PUMP;
+                                allHighlighted &= part.isHighlighted;
+                            }
+                            if (canPump && isControllable)
+                            {
+                                DrawToggleButton(partInfo, TransferDirection.LOCKED, "L", "Lock");
+                                DrawToggleButton(partInfo, TransferDirection.IN, "I", "Transfer In");
+                                DrawToggleButton(partInfo, TransferDirection.OUT, "O", "Transfer Out");
+                                DrawToggleButton(partInfo, TransferDirection.BALANCE, "B", "Balance");
+                                if (settings.ShowDump)
+                                {
+                                    DrawToggleButton(partInfo, TransferDirection.DUMP, "D", "Dump");
+                                }
+                            }
+                            bool highlight = GUILayout.Toggle(allHighlighted, new GUIContent("H", "Highlight"), buttonStyle, width20);
+                            if (highlight != allHighlighted)
+                            {
+                                foreach (ResourcePartMap part in l2_parts)
+                                {
+                                    if (!highlight && part.isHighlighted && !part.isSelected)
+                                    {
+                                        part.part.SetHighlightDefault();
+                                    }
+                                    part.isHighlighted = highlight;
+                                }
+                                //guiChanged = true;
+                            }
+                        }
+                        PopupWindow.Draw(GetControlText(partInfo), windowPos, DrawPopupContents, coloredButtonStyle, partInfo, width20);
 
                         GUILayout.EndHorizontal();
                     }
@@ -298,18 +349,21 @@ namespace Tac
 
 
 
-			// Extra title bar buttons
-			if( GUI.Button( new Rect( windowPos.width - 72, 4, 20, 20 ), resetContent, closeButtonStyle ) )
-			{
-				controller.RebuildActiveVesselLists( );
-			}
-			if( GUI.Button( new Rect( windowPos.width - 48, 4, 20, 20 ), settingsContent, closeButtonStyle ) )
+            // Extra title bar buttons
+            if (GUI.Button(new Rect(windowPos.width - 72, 4, 20, 20), resetContent, closeButtonStyle))
             {
-                settingsWindow.ToggleVisible( );
+                controller.RebuildActiveVesselLists();
             }
-            if( GUI.Button( new Rect( windowPos.width - 24, 4, 20, 20 ), helpContent, closeButtonStyle ) )
+            if (!HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().disableOldSettings)
             {
-				helpWindow.ToggleVisible( );
+                if (GUI.Button(new Rect(windowPos.width - 48, 4, 20, 20), settingsContent, closeButtonStyle))
+                {
+                    settingsWindow.ToggleVisible();
+                }
+            }
+            if (GUI.Button(new Rect(windowPos.width - 24, 4, 20, 20), helpContent, closeButtonStyle))
+            {
+                helpWindow.ToggleVisible();
             }
         }
 
@@ -336,10 +390,13 @@ namespace Tac
 
         private IEnumerable<ResourcePartMap> EnumerateSelectedParts()
         {
-            return from resource in controller.GetResourceInfo().Values where resource.isShowing
-                   from part in resource.parts where part.isSelected select part;
+            return from resource in controller.GetResourceInfo().Values
+                   where resource.isShowing
+                   from part in resource.parts
+                   where part.isSelected
+                   select part;
         }
-        
+
         private bool DrawPopupContents(int windowId, object parameter)
         {
             ResourcePartMap clickedPart = (ResourcePartMap)parameter;
@@ -352,9 +409,9 @@ namespace Tac
                 canPump &= part.resource.TransferMode == ResourceTransferMode.PUMP;
                 allHighlighted &= part.isHighlighted;
             }
-            
+
             bool highlight = GUILayout.Toggle(allHighlighted, "Highlight", popupButtonStyle);
-            if(highlight != allHighlighted)
+            if (highlight != allHighlighted)
             {
                 foreach (ResourcePartMap part in parts)
                 {
@@ -367,10 +424,13 @@ namespace Tac
                 guiChanged = true;
             }
 
-            if (controller.IsPrelaunch() && parts.Count == 1) // only allow editing when a single part is selected
+            if (HighLogic.CurrentGame.Mode == Game.Modes.SANDBOX)
             {
-                newAmount = clickedPart.resource.Amount;
-                PopupWindow.Draw("Edit", windowPos, DrawEditPopupContents, popupButtonStyle, clickedPart);
+                if (controller.IsPrelaunch() && parts.Count == 1) // only allow editing when a single part is selected
+                {
+                    newAmount = clickedPart.resource.Amount;
+                    PopupWindow.Draw("Edit", windowPos, DrawEditPopupContents, popupButtonStyle, clickedPart);
+                }
             }
 
             if (canPump && isControllable)
@@ -385,7 +445,7 @@ namespace Tac
                         break;
                     }
                 }
-                
+
                 DrawPopupToggle(TransferDirection.NONE, "Stop", ref direction, ref toggleChange);
                 DrawPopupToggle(TransferDirection.IN, "Transfer In", ref direction, ref toggleChange);
                 DrawPopupToggle(TransferDirection.OUT, "Transfer Out", ref direction, ref toggleChange);
@@ -395,7 +455,7 @@ namespace Tac
                     DrawPopupToggle(TransferDirection.DUMP, "Dump", ref direction, ref toggleChange);
                 }
                 DrawPopupToggle(TransferDirection.LOCKED, "Lock", ref direction, ref toggleChange);
-                
+
                 if (toggleChange.HasValue)
                 {
                     foreach (ResourcePartMap part in parts)
@@ -428,6 +488,52 @@ namespace Tac
             return guiChanged;
         }
 
+        private void DrawToggleButton(ResourcePartMap partInfo, TransferDirection toggleDirection, string text, string toolTip)
+        {
+            bool b = (partInfo.direction == toggleDirection);
+            bool bout = GUILayout.Toggle(b, new GUIContent(text, toolTip), buttonStyle, width20);
+            if (b && !bout)
+            {
+                partInfo.direction = TransferDirection.NONE;
+            }
+            else
+            {
+                if (bout)
+                    partInfo.direction = toggleDirection;
+            }
+            if (b!=bout)
+            {
+                List<ResourcePartMap> parts = partInfo.isSelected ?  EnumerateSelectedParts().ToList() : new List<ResourcePartMap>(1) { partInfo };
+                foreach (ResourcePartMap rmp in parts)
+                {
+                    if (partInfo.direction == TransferDirection.NONE) // if the user turned a direction off...
+                    {
+                        //if (rmp.direction != toggleDirection)
+                        {
+                            if (toggleDirection == TransferDirection.LOCKED)
+                            {
+                                rmp.resource.Locked = false;
+
+                                rmp.direction = TransferDirection.NONE;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //if (rmp.direction != toggleDirection)
+                        {
+                            if (toggleDirection == TransferDirection.LOCKED)
+                            {
+                                rmp.resource.Locked = true;
+
+                                rmp.direction = toggleDirection;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void DrawPopupToggle(TransferDirection toggleDirection, string name, ref TransferDirection currentDirection,
                                      ref bool? toggleChange)
         {
@@ -444,7 +550,7 @@ namespace Tac
                 toggleChange = false;
             }
         }
-        
+
         private bool DrawEditPopupContents(int windowId, object parameter)
         {
             ResourcePartMap partInfo = (ResourcePartMap)parameter;
@@ -504,42 +610,42 @@ namespace Tac
             Comparison<ResourcePartMap> comparer = null;
             if (GUILayout.Button("Name", popupButtonStyle))
             {
-                comparer = (a,b) => a.part.partInfo.title.CompareTo(b.part.partInfo.title);
+                comparer = (a, b) => a.part.partInfo.title.CompareTo(b.part.partInfo.title);
             }
             else if (settings.ShowShipNumber && GUILayout.Button("Ship ID", popupButtonStyle))
             {
-                comparer = (a,b) => a.shipId - b.shipId;
+                comparer = (a, b) => a.shipId - b.shipId;
             }
             else if (settings.ShowStageNumber && GUILayout.Button("Stage", popupButtonStyle))
             {
-                comparer = (a,b) => a.part.inverseStage - b.part.inverseStage;
+                comparer = (a, b) => a.part.inverseStage - b.part.inverseStage;
             }
             else if (settings.ShowMaxAmount && GUILayout.Button("Capacity", popupButtonStyle))
             {
-                comparer = (a,b) => a.resource.MaxAmount.CompareTo(b.resource.MaxAmount);
+                comparer = (a, b) => a.resource.MaxAmount.CompareTo(b.resource.MaxAmount);
             }
             else if (settings.ShowCurrentAmount && GUILayout.Button("Amount", popupButtonStyle))
             {
-                comparer = (a,b) => a.resource.Amount.CompareTo(b.resource.Amount);
+                comparer = (a, b) => a.resource.Amount.CompareTo(b.resource.Amount);
             }
             else if (settings.ShowPercentFull && GUILayout.Button("Percent Full", popupButtonStyle))
             {
-                comparer = (a,b) => a.resource.PercentFull.CompareTo(b.resource.PercentFull);
+                comparer = (a, b) => a.resource.PercentFull.CompareTo(b.resource.PercentFull);
             }
-            
+
             if (comparer != null)
             {
                 controller.SortParts(comparer);
             }
             return comparer != null;
         }
-        
+
         private void ResetRangeSelection()
         {
             lastResourceClicked = null;
-            lastPartClicked     = null;
+            lastPartClicked = null;
         }
-        
+
         private void SelectPart(ResourceInfo resource, ResourcePartMap part, bool selected)
         {
             part.isSelected = selected;
@@ -551,7 +657,7 @@ namespace Tac
 
         private void SelectParts(ResourceInfo resource, IEnumerable<ResourcePartMap> parts, bool select, bool dontClear)
         {
-            if(!dontClear)
+            if (!dontClear)
             {
                 foreach (ResourceInfo res in controller.GetResourceInfo().Values)
                 {
@@ -559,9 +665,9 @@ namespace Tac
                     {
                         SelectPart(res, part, false);
                     }
-                }         
+                }
             }
-            
+
             if (select || dontClear)
             {
                 foreach (ResourcePartMap part in parts)
@@ -570,7 +676,7 @@ namespace Tac
                 }
             }
         }
-        
+
         private void SetResourceVisibility(ResourceInfo resource, bool visible)
         {
             if (resource.isShowing != visible)

@@ -73,7 +73,7 @@ namespace Tac
             GUILayout.Space(20);
             GUILayout.Label("Features", sectionStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Highlight - highlights/marks the part so you can find/remember it.", labelStyle, GUILayout.ExpandWidth(true));
-            GUILayout.Label("* Edit - edit the amount in the part (only available Prelaunch or when Landed).", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Edit - edit the amount in the part (only available when playing Sandbox, Prelaunch or when Landed).", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Lock - prevents it from transferring the resource into or out of the part.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* In - transfers the resource into the part, taking an equal amount from each other part.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Out - transfers the resource out of the part, putting an equal amount in each other part.", labelStyle, GUILayout.ExpandWidth(true));

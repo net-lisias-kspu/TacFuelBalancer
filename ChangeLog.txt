@@ -4,6 +4,19 @@ Tac Fuel Balancer
 2.21
 	Adoption by Linuxgurugamer
 	Rebuilt for 1.5.1, 1.6.1, 1.7.0
+	Removed all old toolbar code, about 1500 lines
+	Added support for the ToolbarController
+	Added support for the ClickThroughBlocker
+	Added fast toggles to fuel balance window
+	Added new settings:
+		ShowToggles
+		ShowTooltips
+	Make text in menu button yellow
+	Added settings option to make tooltips optional
+	Made edit mode only available when in sandbox mode (beginning of integrating career modes)
+	Added a stock settings page, works alongside current settings page
+	Added option to not use the KSP skin
+	Added option to disable old settings window
 
 2.20
 ----

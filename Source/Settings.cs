@@ -44,6 +44,8 @@ namespace Tac
         public bool ShowCurrentAmount { get; set; }
         public bool ShowPercentFull { get; set; }
         public bool ShowDump { get; set; }
+        public bool ShowToggles { get; set; }
+        public bool ShowTooltips { get; set; }
 
         public bool BalanceIn { get; set; }
         public bool BalanceOut { get; set; }
@@ -63,13 +65,40 @@ namespace Tac
             ShowCurrentAmount = true;
             ShowPercentFull = true;
             ShowDump = true;
-			OneTabOnly = true;
-
+            OneTabOnly = true;
+            ShowToggles = true;
+            ShowTooltips = true;
             BalanceIn = false;
             BalanceOut = false;
 
             Debug = false;
+
+            LoadFromStock();
         }
+
+        public void LoadFromStock()
+        { 
+            MaxFuelFlow = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().MaxFuelFlow;
+            RateMultiplier = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().RateMultiplier;
+            FuelWarningLevel = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().FuelWarningLevel;
+            FuelCriticalLevel = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().FuelCriticalLevel;
+
+            ShowShipNumber = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowShipNumber;
+            ShowStageNumber = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowStageNumber;
+            ShowMaxAmount = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowMaxAmount;
+            ShowCurrentAmount = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowCurrentAmount;
+            ShowPercentFull = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowPercentFull;
+            ShowDump = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowDump;
+            OneTabOnly = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().OneTabOnly;
+            ShowToggles = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowToggles;
+            ShowTooltips = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowTooltips;
+            BalanceIn = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().BalanceIn;
+            BalanceOut = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().BalanceOut;
+
+            Debug = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().Debug;
+
+        }
+
 
         public void Load(ConfigNode config)
         {
@@ -85,15 +114,43 @@ namespace Tac
             ShowCurrentAmount = Utilities.GetValue(config, "ShowCurrentAmount", ShowCurrentAmount);
             ShowPercentFull = Utilities.GetValue(config, "ShowPercentFull", ShowPercentFull);
             ShowDump = Utilities.GetValue(config, "ShowDump", ShowDump);
+            ShowToggles = Utilities.GetValue(config, "ShowToggles", ShowToggles);
+            ShowTooltips = Utilities.GetValue(config, "ShowTooltips", ShowTooltips);
 
             BalanceIn = Utilities.GetValue(config, "BalanceIn", BalanceIn);
             BalanceOut = Utilities.GetValue(config, "BalanceOut", BalanceOut);
-            
+
             Debug = Utilities.GetValue(config, "Debug", Debug);
+
+            SaveToStock();
+        }
+
+        public void SaveToStock()
+        {
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().MaxFuelFlow = (float)MaxFuelFlow;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().RateMultiplier = (float)RateMultiplier;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().RateMultiplerStr = RateMultiplier.ToString();
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().FuelWarningLevel = (float)FuelWarningLevel;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().FuelCriticalLevel = (float)FuelCriticalLevel;
+
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowShipNumber = ShowShipNumber;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowStageNumber = ShowStageNumber;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowMaxAmount = ShowMaxAmount;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowCurrentAmount = ShowCurrentAmount;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowPercentFull = ShowPercentFull;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowDump = ShowDump;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().OneTabOnly = OneTabOnly;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowToggles = ShowToggles;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().ShowTooltips = ShowTooltips;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().BalanceIn = BalanceIn;
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().BalanceOut = BalanceOut;
+
+            HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().Debug = Debug;
         }
 
         public void Save(ConfigNode config)
         {
+            SaveToStock();
             config.AddValue("MaxFuelFlow", MaxFuelFlow);
             config.AddValue("RateMultiplier", RateMultiplier);
             config.AddValue("FuelWarningLevel", FuelWarningLevel);

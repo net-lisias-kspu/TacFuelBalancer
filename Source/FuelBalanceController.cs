@@ -32,18 +32,19 @@ using System.Linq;
 using UnityEngine;
 using KSP.UI.Screens;
 using KSP.IO;
-
+using ToolbarControl_NS;
 
 
 namespace Tac
 {
+
     [KSPAddon(KSPAddon.Startup.Flight, false)]
-    sealed class FuelBalanceController : MonoBehaviour
+    sealed internal class FuelBalanceController : MonoBehaviour
     {
         private const int MaxRecentVessels = 5;
         private const double AmountEpsilon = 0.001, PercentEpsilon = 0.00001;
         
-        sealed class VesselInfo
+        sealed internal class VesselInfo
         {
             public VesselInfo()
             {
@@ -66,12 +67,12 @@ namespace Tac
             public int lastPartCount;
         }
 
-        private Settings settings;
-        private MainWindow mainWindow;
+        internal static Settings settings = null;
+        internal MainWindow mainWindow;
         private SettingsWindow settingsWindow;
         private HelpWindow helpWindow;
         private string configFilename;
-		private UnifiedButton button;
+		//private UnifiedButton button;
         private VesselInfo vesselInfo;
         private readonly List<VesselInfo> recentVessels = new List<VesselInfo>(MaxRecentVessels);
 		private bool UiHidden;
@@ -84,7 +85,8 @@ namespace Tac
             this.Log("Awake");
             configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
 
-            settings = new Settings();
+            if (settings == null)
+                settings = new Settings();
 
             settingsWindow = new SettingsWindow(settings);
             helpWindow = new HelpWindow();
@@ -183,14 +185,18 @@ namespace Tac
 
             if (activeVessel.isEVA)
             {
-				button.SetDisabled( );
-				button.SetOff( );
+                toolbarControl.SetFalse();
+                //button.SetDisabled( );
+                //button.SetOff( );
+                toolbarControl.Enabled = false;
                 mainWindow.SetVisible(false);
                 return;
             }
-			else if( !button.IsEnabled( ) )
+            //else if (!button.IsEnabled())
+            else if (!toolbarControl.Enabled)
             {
-				button.SetEnabled( );
+                //button.SetEnabled( );
+                toolbarControl.Enabled = true;
             }
 
             if (activeVessel != vesselInfo.vessel || activeVessel.situation != vesselInfo.lastSituation || activeVessel.Parts.Count != vesselInfo.lastPartCount)
@@ -343,18 +349,21 @@ namespace Tac
 
 		private void OnWindowClosed( object sender, EventArgs e )
 		{
-			button.SetOff( );
+            toolbarControl.SetFalse();
+			//button.SetOff( );
 		}
 
 		private void OnIconOpen( object sender, EventArgs e  )
         {
             mainWindow.SetVisible( true );
-			button.SetOn( );
+            toolbarControl.SetTrue();
+			//button.SetOn( );
         }
 		private void OnIconClose( object sender, EventArgs e  )
 		{
 			mainWindow.SetVisible( false );
-			button.SetOff( );
+            toolbarControl.Enabled = false;
+			//button.SetOff( );
 		}
 
 
@@ -690,72 +699,59 @@ namespace Tac
 		}
 
 
+        private ToolbarControl toolbarControl;
+        internal const string MODID = "TAC";
+        internal const string MODNAME = "Tac Fuel Balancer";
 
-		/// <summary>
-		/// Add the buttons
-		/// </summary>
-		private void AddButtons( )
+        void InitToolbarController()
+        {
+            if (toolbarControl == null)
+            {
+                GameObject gameObject = new GameObject();
+                toolbarControl = gameObject.AddComponent<ToolbarControl>();
+                toolbarControl.AddToAllToolbars(DoOnButtonOn, DoOnButtonOff,
+                    ApplicationLauncher.AppScenes.FLIGHT |
+                    ApplicationLauncher.AppScenes.MAPVIEW,
+                    MODID,
+                    "FB",
+                    "TacFuelBalancer/icons/icon-tac-fuel.png",
+                    "TacFuelBalancer/icons/icon-tac-fuel-small.png",
+                    MODNAME);
+            }
+        }
+
+        void DoOnButtonOn()
+        {
+            mainWindow.SetVisible(true);
+            //button.SetOn();
+        }
+        void DoOnButtonOff()
+        {
+            mainWindow.SetVisible(false);
+            //button.SetOff();
+        }
+
+        /// <summary>
+        /// Add the buttons
+        /// </summary>
+        private void AddButtons( )
 		{
-			button = new UnifiedButton( );
-			button.UseBlizzyIfPossible = true;
-
-			if( BlizzysToolbarButton.IsAvailable )
-			{
-				var texturePath = "TacFuelBalancer/icon-tac-fuel-small.png";
-				if( !GameDatabase.Instance.ExistsTexture( texturePath ) )
-				{
-					var texture = TextureHelper.FromResource( "Tac.icons.icon-tac-fuel-small.png", 24, 24 );
-					var ti = new GameDatabase.TextureInfo( null, texture, false, true, true );
-					ti.name = texturePath;
-					GameDatabase.Instance.databaseTexture.Add( ti );
-				}
-//				this.Log( "Load : Blizzy texture" );
-
-
-				button.BlizzyNamespace = "Tac";
-				button.BlizzyButtonId = "FB";
-				button.BlizzyToolTip = "TAC Fuel Balancer";
-				button.BlizzyText = "TAC Fuel Balancer";
-				button.BlizzyTexturePath = texturePath;
-				button.BlizzyVisibility = new GameScenesVisibility( GameScenes.FLIGHT );
-//				this.Log( "Load : Set Blizzy Stuff" );
-			}
-
-
-
-
-			var StockTexture = TextureHelper.FromResource( "Tac.icons.icon-tac-fuel.png", 38, 38 );
-/*			if( StockTexture != null )
-				this.Log( "Load : Stock texture" );
-			else
-				this.Log( "Load : cant load texture" );*/
-			button.LauncherTexture = StockTexture;
-			button.LauncherVisibility =
-				ApplicationLauncher.AppScenes.FLIGHT |
-				ApplicationLauncher.AppScenes.MAPVIEW;
-//			this.Log( "Load : Set Stock Stuff" );
-
-
-			button.ButtonOn += OnIconOpen;
-			button.ButtonOff += OnIconClose;
-			button.Add( );
-
+            InitToolbarController();
 		}
 
 
 
-		/// <summary>
-		/// Remove the buttons
-		/// </summary>
+        /// <summary>
+        /// Remove the buttons
+        /// </summary>
 		private void RemoveButtons( )
 		{
-			if( button != null )
-			{
-				button.ButtonOn -= OnIconOpen;
-				button.ButtonOff -= OnIconClose;
-				button.Remove( );
-				button = null;
-			}
+            if (toolbarControl != null)
+            {
+                toolbarControl.OnDestroy();
+                Destroy(toolbarControl);
+                toolbarControl = null;
+            }
 		}
 
 

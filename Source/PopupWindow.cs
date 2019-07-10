@@ -27,6 +27,7 @@
 
 using System;
 using UnityEngine;
+using ClickThroughFix;
 
 namespace Tac
 {
@@ -66,7 +67,7 @@ namespace Tac
             {
                 GUI.skin = HighLogic.Skin;
                 popupPos = Utilities.EnsureCompletelyVisible(popupPos);
-                popupPos = GUILayout.Window(windowId, popupPos, DrawPopupContents, "");
+                popupPos = ClickThruBlocker.GUILayoutWindow(windowId, popupPos, DrawPopupContents, "");
             }
         }
 
@@ -98,8 +99,11 @@ namespace Tac
         public static void Draw(string buttonText, Rect windowPos, Func<int, object, bool> popupDrawCallback, GUIStyle buttonStyle, object parameter, params GUILayoutOption[] options)
         {
             PopupWindow pw = PopupWindow.GetInstance();
-
-            var content = new GUIContent(buttonText);
+            GUIContent content;
+            if (buttonText.Length == 1)
+                content = new GUIContent(buttonText, "Menu");
+            else
+                content = new GUIContent(buttonText);
             var rect = GUILayoutUtility.GetRect(content, buttonStyle, options);
             if (GUI.Button(rect, content, buttonStyle))
             {
