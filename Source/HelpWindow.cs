@@ -71,6 +71,8 @@ namespace Tac
 
             GUILayout.Label("Fuel Balancer by Taranis Elsu of Thunder Aerospace Corporation.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("Copyright (c) Thunder Aerospace Corporation. Patents pending.", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Space(10);
+            GUILayout.Label("Now supported by Linuxgurugamer", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Space(20);
             GUILayout.Label("Features", sectionStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Highlight - highlights/marks the part so you can find/remember it.", labelStyle, GUILayout.ExpandWidth(true));
@@ -92,6 +94,7 @@ namespace Tac
             GUILayout.Label("Note that it can transfer any resource that uses the \"pump\" resource transfer mode, including liquid fuel, oxidizer, electric charge, Kethane, and RCS fuel; but not resources such as solid rocket fuel.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Space(20);
             GUILayout.Label("Settings", sectionStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* All settings are being moved to the stock settings page.  The old settings window currently available will be retired shortly", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Auto-deselect Tabs - causes the resource selector to behave like a normal tab control, so only one resource can be shown at a time, but only one click is needed to change between them.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Maximum Fuel Flow Rate - controls how quickly fuel is transfered around. This limits each action to only transfer up to the selected amount.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Fuel Warning Level - warns (yellow) when a resource drops below this percentage of capacity.", labelStyle, GUILayout.ExpandWidth(true));
@@ -99,6 +102,14 @@ namespace Tac
             GUILayout.Label("* Show <whatever> - toggles the display of the columns on the main window.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Balance In's - when this is enabled, it will balance the resource level between parts that are set to In. Note that this can cause the resource level in a part to drop until it evens out with the other parts, then it will start increasing again.", labelStyle, GUILayout.ExpandWidth(true));
             GUILayout.Label("* Balance Out's - when this is enabled, it will balance the resource level between parts that are set to Out. Note that this can cause the resource level in a part to rise until it evens out with the other parts, then it will start decreasing again.", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label(" ");
+            GUILayout.Label("* Toggle Position & Misc", sectionStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* The first six lines in the Toggle Position & Misc section controls which toggles are shown on the main windiw, and the order they are shown in.", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* To disable a toggle from showing, set the value to 0", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* To change the skin from the KSP skin to a smaller and darker skin, unset the Use KSP Skin", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Since the old settings page is still around, there is an option to disable the old settings page", labelStyle, GUILayout.ExpandWidth(true));
+            GUILayout.Label("* Finally, there is a Debug mode.  This is currently not used, but is referenced in the code and is reserved for future use", labelStyle, GUILayout.ExpandWidth(true));
+
 
             GUILayout.EndVertical();
             GUILayout.EndScrollView();

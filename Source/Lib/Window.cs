@@ -69,11 +69,20 @@ namespace Tac
             visible = false;
 
             //var texture = TextureHelper.FromResource("Tac.icons.resize.png", 16, 16);
-            var texture = TextureHelper.FromResource("icons.resize.png", 16, 16);
+            Texture2D texture = null;
+            try
+            {
+                texture = TextureHelper.FromResource("icons.resize.png", 16, 16);
+            } catch { }
             resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window") : new GUIContent("R", "Drag to resize the window");
 
             //var closetexture = TextureHelper.FromResource("Tac.icons.close.png", 16, 16);
-            var closetexture = TextureHelper.FromResource("icons.close.png", 16, 16);
+            Texture2D closetexture = null;
+            try
+            {
+                closetexture = TextureHelper.FromResource("icons.close.png", 16, 16);
+            }
+            catch { }
             closeContent = ( closetexture != null ) ? new GUIContent( closetexture, "Close window" ) : new GUIContent( "X", "Close window" );
 
 

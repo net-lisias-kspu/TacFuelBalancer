@@ -1,5 +1,12 @@
 Tac Fuel Balancer
 =================
+2.21.2
+	Fixed build issue with embedded icon resources
+	Added info to help screens
+	Moved settings around a little bit
+	Added code to create the PluginData directory if it doesn't exist
+	Fixed tooltip not hiding when showing the popup-menu
+
 2.21.1
 	Fixed InstallChecker to look for mod in PluginData directory
 	Fixed UI opening by default

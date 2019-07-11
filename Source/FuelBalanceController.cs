@@ -81,12 +81,15 @@ namespace Tac
         public static string ROOT_PATH = KSPUtil.ApplicationRootPath;
         private static string GAMEDATA_FOLDER = ROOT_PATH + "GameData/";
         public static String MOD_FOLDER = GAMEDATA_FOLDER + "TacFuelBalancer/";
+        public static string DATA_FOLDER = MOD_FOLDER + "PluginData/";
         void Awake()
         {
             this.Log("Awake");
             //configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
-            configFilename = MOD_FOLDER + "PluginData/FuelBalancer.cfg";
+            configFilename = DATA_FOLDER + "FuelBalancer.cfg";
             Debug.Log("Awake, configFilename: " + configFilename);
+            // No need to check to see if the directory exists, will create it if it doesn't
+            System.IO.Directory.CreateDirectory(DATA_FOLDER);
             if (settings == null)
                 settings = new Settings();
             if (settings == null)

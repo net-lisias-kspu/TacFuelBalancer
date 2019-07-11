@@ -44,7 +44,7 @@ namespace Tac
         [GameParameters.CustomParameterUI("Show Percent Full")]
         public bool ShowPercentFull = true;
 
-        [GameParameters.CustomParameterUI("Show Dump")]
+        [GameParameters.CustomParameterUI("Show Dump in popup-menu")]
         public bool ShowDump = true;
 
         [GameParameters.CustomParameterUI("Show Toggles")]
@@ -59,6 +59,16 @@ namespace Tac
         [GameParameters.CustomParameterUI("Balance Out's")]
         public bool BalanceOut = false;
 
+
+
+        [GameParameters.CustomStringParameterUI(" ", lines = 1)]
+        public string a2 = "";
+
+        [GameParameters.CustomParameterUI("Hide tabs for non-transferable resources")]
+        public bool hideNontransferableResources = false;
+
+        [GameParameters.CustomParameterUI("Popup-menu available")]
+        public bool popupMenu = true;
 
 
 
@@ -164,7 +174,7 @@ namespace Tac
 
     public class TacSettings_3 : GameParameters.CustomParameterNode
     {
-        public override string Title { get { return "Misc"; } }
+        public override string Title { get { return "Toggle Position & Misc"; } }
         public override GameParameters.GameMode GameMode { get { return GameParameters.GameMode.ANY; } }
         public override string Section { get { return "Tac Fuel Balancer"; } }
         public override string DisplaySection { get { return "Tac Fuel Balancer"; } }
@@ -196,16 +206,6 @@ namespace Tac
         [GameParameters.CustomIntParameterUI("Highlight", minValue = 0, maxValue = 6,
             toolTip = "Set to 0 to disable display of the Highlight toggle")]
         public int hightlightPos = 6;
-
-        [GameParameters.CustomStringParameterUI(" ", lines = 1)]
-        public string a2 = "";
-
-        [GameParameters.CustomParameterUI("Hide tabs for non-transferable resources")]
-        public bool hideNontransferableResources = false;
-
-        [GameParameters.CustomParameterUI("Popup-menu available")]
-        public bool popupMenu = true;
-
 
         [GameParameters.CustomStringParameterUI(" ", lines = 1)]
         public string a3 = "";

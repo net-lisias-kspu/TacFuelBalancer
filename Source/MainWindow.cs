@@ -70,15 +70,30 @@ namespace Tac
             //SetVisible(true);
 
             //var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
-            var settingstexture = TextureHelper.FromResource("icons.settings.png", 16, 16);
+            Texture2D settingstexture = null;
+            try
+            {
+                settingstexture = TextureHelper.FromResource("icons.settings.png", 16, 16);
+            }
+            catch { }
             settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
 
             //var helptexture = TextureHelper.FromResource("Tac.icons.help.png", 16, 16);
-            var helptexture = TextureHelper.FromResource("icons.help.png", 16, 16);
+            Texture2D helptexture = null;
+            try
+            {
+                helptexture = TextureHelper.FromResource("icons.help.png", 16, 16);
+            }
+            catch { }
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
             //var resettexture = TextureHelper.FromResource("Tac.icons.reset.png", 16, 16);
-            var resettexture = TextureHelper.FromResource("icons.reset.png", 16, 16);
+            Texture2D resettexture = null;
+            try
+            {
+                resettexture = TextureHelper.FromResource("icons.reset.png", 16, 16);
+            }
+            catch { }
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }
 
@@ -152,7 +167,7 @@ namespace Tac
             sortedResources.Sort((a, b) => a.title.CompareTo(b.title));
             foreach (ResourceInfo resource in sortedResources)
             {
-                if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().hideNontransferableResources &&
+                if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().hideNontransferableResources &&
                         (resource.parts[0].resource.TransferMode != ResourceTransferMode.PUMP || !isControllable)
                                  )
                     continue;
@@ -188,7 +203,7 @@ namespace Tac
             {
                 if (resource.isShowing)
                 {
-                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().hideNontransferableResources &&
+                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().hideNontransferableResources &&
                         (resource.parts[0].resource.TransferMode != ResourceTransferMode.PUMP || ! isControllable)
                                  )
                         continue;
@@ -342,7 +357,7 @@ namespace Tac
                                 }
                             }
                         }
-                        if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().popupMenu)
+                        if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_1>().popupMenu)
                             PopupWindow.Draw(GetControlText(partInfo), windowPos, DrawPopupContents, coloredButtonStyle, partInfo, width20);
 
                         GUILayout.EndHorizontal();
@@ -424,6 +439,7 @@ namespace Tac
 
         private bool DrawPopupContents(int windowId, object parameter)
         {
+            _lastTooltip = string.Empty;
             ResourcePartMap clickedPart = (ResourcePartMap)parameter;
 
             List<ResourcePartMap> parts = clickedPart.isSelected ?
