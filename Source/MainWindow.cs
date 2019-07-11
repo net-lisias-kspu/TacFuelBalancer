@@ -69,13 +69,16 @@ namespace Tac
             this.helpWindow = helpWindow;
             //SetVisible(true);
 
-            var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
+            //var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
+            var settingstexture = TextureHelper.FromResource("icons.settings.png", 16, 16);
             settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
 
-            var helptexture = TextureHelper.FromResource("Tac.icons.help.png", 16, 16);
+            //var helptexture = TextureHelper.FromResource("Tac.icons.help.png", 16, 16);
+            var helptexture = TextureHelper.FromResource("icons.help.png", 16, 16);
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
-            var resettexture = TextureHelper.FromResource("Tac.icons.reset.png", 16, 16);
+            //var resettexture = TextureHelper.FromResource("Tac.icons.reset.png", 16, 16);
+            var resettexture = TextureHelper.FromResource("icons.reset.png", 16, 16);
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }
 
