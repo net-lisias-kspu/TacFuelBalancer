@@ -86,17 +86,18 @@ namespace Tac
             this.Log("Awake");
             //configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
             configFilename = MOD_FOLDER + "PluginData/FuelBalancer.cfg";
-
+            Debug.Log("Awake, configFilename: " + configFilename);
             if (settings == null)
                 settings = new Settings();
-
+            if (settings == null)
+                Debug.Log("Error, settings is null");
             settingsWindow = new SettingsWindow(settings);
             helpWindow = new HelpWindow();
             mainWindow = new MainWindow(this, settings, settingsWindow, helpWindow);
 			mainWindow.WindowClosed += OnWindowClosed;
-//			this.Log( "Making Buttons" );
+			this.Log( "Making Buttons" );
 			InitButtons( );
-//			this.Log( "Made Buttons" );
+			this.Log( "Made Buttons" );
             
             vesselInfo = new VesselInfo( );
         }
