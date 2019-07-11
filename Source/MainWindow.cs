@@ -66,7 +66,7 @@ namespace Tac
             this.settings = settings;
             this.settingsWindow = settingsWindow;
             this.helpWindow = helpWindow;
-            SetVisible(true);
+            //SetVisible(true);
 
             var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
             settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
@@ -148,7 +148,12 @@ namespace Tac
             sortedResources.Sort((a, b) => a.title.CompareTo(b.title));
             foreach (ResourceInfo resource in sortedResources)
             {
-                bool toggled = GUILayout.Toggle(resource.isShowing, resource.title, buttonStyle) != resource.isShowing;
+                if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().hideNontransferableResources &&
+                        (resource.parts[0].resource.TransferMode != ResourceTransferMode.PUMP || !isControllable)
+                                 )
+                    continue;
+
+                bool toggled = (GUILayout.Toggle(resource.isShowing, resource.title, buttonStyle) != resource.isShowing);
                 if (toggled)
                 {
                     SetResourceVisibility(resource, !resource.isShowing);
@@ -179,6 +184,11 @@ namespace Tac
             {
                 if (resource.isShowing)
                 {
+                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().hideNontransferableResources &&
+                        (resource.parts[0].resource.TransferMode != ResourceTransferMode.PUMP || ! isControllable)
+                                 )
+                        continue;
+
                     GUILayout.BeginHorizontal();
                     GUILayout.Space(20);
                     GUILayout.Label(resource.title, sectionStyle, GUILayout.Width(100));
@@ -286,39 +296,50 @@ namespace Tac
 
                         if (settings.ShowToggles)
                         {
-                            List<ResourcePartMap> l2_parts = partInfo.isSelected ? EnumerateSelectedParts().ToList() : new List<ResourcePartMap>(1) { partInfo };
+                            List<ResourcePartMap> selectedParts = partInfo.isSelected ? EnumerateSelectedParts().ToList() : new List<ResourcePartMap>(1) { partInfo };
                             bool canPump = true, allHighlighted = true;
-                            foreach (ResourcePartMap part in l2_parts)
+                            foreach (ResourcePartMap part in selectedParts)
                             {
                                 canPump &= part.resource.TransferMode == ResourceTransferMode.PUMP;
                                 allHighlighted &= part.isHighlighted;
                             }
-                            if (canPump && isControllable)
+                            for (int toggleNum = 1; toggleNum < 6; toggleNum++)
                             {
-                                DrawToggleButton(partInfo, TransferDirection.LOCKED, "L", "Lock");
-                                DrawToggleButton(partInfo, TransferDirection.IN, "I", "Transfer In");
-                                DrawToggleButton(partInfo, TransferDirection.OUT, "O", "Transfer Out");
-                                DrawToggleButton(partInfo, TransferDirection.BALANCE, "B", "Balance");
-                                if (settings.ShowDump)
+                                if (canPump && isControllable)
                                 {
-                                    DrawToggleButton(partInfo, TransferDirection.DUMP, "D", "Dump");
-                                }
-                            }
-                            bool highlight = GUILayout.Toggle(allHighlighted, new GUIContent("H", "Highlight"), buttonStyle, width20);
-                            if (highlight != allHighlighted)
-                            {
-                                foreach (ResourcePartMap part in l2_parts)
-                                {
-                                    if (!highlight && part.isHighlighted && !part.isSelected)
+                                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().lockedPos == toggleNum)
+                                        DrawToggleButton(partInfo, TransferDirection.LOCKED, "L", "Lock");
+                                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().transferInPos == toggleNum)
+                                        DrawToggleButton(partInfo, TransferDirection.IN, "I", "Transfer In");
+                                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().transferOutPos == toggleNum)
+                                        DrawToggleButton(partInfo, TransferDirection.OUT, "O", "Transfer Out");
+                                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().balancePos == toggleNum)
+                                        DrawToggleButton(partInfo, TransferDirection.BALANCE, "B", "Balance");
+                                    if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().dumpPos == toggleNum)
                                     {
-                                        part.part.SetHighlightDefault();
+                                        DrawToggleButton(partInfo, TransferDirection.DUMP, "D", "Dump");
                                     }
-                                    part.isHighlighted = highlight;
                                 }
-                                //guiChanged = true;
+                                if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().lockedPos == toggleNum)
+                                {
+                                    bool highlight = GUILayout.Toggle(allHighlighted, new GUIContent("H", "Highlight"), buttonStyle, width20);
+                                    if (highlight != allHighlighted)
+                                    {
+                                        foreach (ResourcePartMap part in selectedParts)
+                                        {
+                                            if (!highlight && part.isHighlighted && !part.isSelected)
+                                            {
+                                                part.part.SetHighlightDefault();
+                                            }
+                                            part.isHighlighted = highlight;
+                                        }
+                                        //guiChanged = true;
+                                    }
+                                }
                             }
                         }
-                        PopupWindow.Draw(GetControlText(partInfo), windowPos, DrawPopupContents, coloredButtonStyle, partInfo, width20);
+                        if (HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().popupMenu)
+                            PopupWindow.Draw(GetControlText(partInfo), windowPos, DrawPopupContents, coloredButtonStyle, partInfo, width20);
 
                         GUILayout.EndHorizontal();
                     }

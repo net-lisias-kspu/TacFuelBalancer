@@ -59,7 +59,8 @@ namespace Tac
         [GameParameters.CustomParameterUI("Balance Out's")]
         public bool BalanceOut = false;
 
-     
+
+
 
 
 
@@ -114,6 +115,9 @@ namespace Tac
         [GameParameters.CustomParameterUI("Rate Multiplier")]
         public string RateMultiplerStr = "1";
 
+        [GameParameters.CustomStringParameterUI("Under Misc, select order of toggles\nto display.\n\nSet to 0 to disable toggle display", lines = 7)]
+        public string a = "";
+
         static List<string> rateMultiplierList = null;
 
         public override IList ValidValues(MemberInfo member)
@@ -137,7 +141,7 @@ namespace Tac
         }
 
 
-        public override void SetDifficultyPreset(GameParameters.Preset preset)        {         }
+        public override void SetDifficultyPreset(GameParameters.Preset preset) { }
 
         public override bool Enabled(MemberInfo member, GameParameters parameters)
         {
@@ -145,7 +149,7 @@ namespace Tac
             if (HighLogic.CurrentGame != null)
             {
                 if (FuelBalanceController.settings != null)
-                    FuelBalanceController.settings.RateMultiplier = RateMultiplier;
+                    FuelBalanceController.settings.LoadFromStock();
             }
             return (member.Name != "RateMultiplier");
         }
@@ -155,7 +159,7 @@ namespace Tac
             return true;
         }
 
-     
+
     }
 
     public class TacSettings_3 : GameParameters.CustomParameterNode
@@ -167,7 +171,44 @@ namespace Tac
         public override int SectionOrder { get { return 3; } }
         public override bool HasPresets { get { return false; } }
 
+       
 
+        [GameParameters.CustomIntParameterUI("Locked", minValue = 0, maxValue = 6,
+            toolTip ="Set to 0 to disable display of the Locked toggle")]
+        public int lockedPos = 1;
+
+        [GameParameters.CustomIntParameterUI("Transfer In", minValue = 0, maxValue = 6,
+            toolTip = "Set to 0 to disable display of the Transfer In toggle")]
+        public int transferInPos = 2;
+
+        [GameParameters.CustomIntParameterUI("Transfer Out", minValue = 0, maxValue = 6,
+            toolTip = "Set to 0 to disable display of the Transfer Out toggle")]
+        public int transferOutPos = 3;
+
+        [GameParameters.CustomIntParameterUI("Balance", minValue = 0, maxValue = 6,
+            toolTip = "Set to 0 to disable display of the Balance toggle")]
+        public int balancePos = 4;
+
+        [GameParameters.CustomIntParameterUI("Dump", minValue = 0, maxValue = 6,
+            toolTip = "Set to 0 to disable display of the Locked toggle")]
+        public int dumpPos = 5;
+
+        [GameParameters.CustomIntParameterUI("Highlight", minValue = 0, maxValue = 6,
+            toolTip = "Set to 0 to disable display of the Highlight toggle")]
+        public int hightlightPos = 6;
+
+        [GameParameters.CustomStringParameterUI(" ", lines = 1)]
+        public string a2 = "";
+
+        [GameParameters.CustomParameterUI("Hide tabs for non-transferable resources")]
+        public bool hideNontransferableResources = false;
+
+        [GameParameters.CustomParameterUI("Popup-menu available")]
+        public bool popupMenu = true;
+
+
+        [GameParameters.CustomStringParameterUI(" ", lines = 1)]
+        public string a3 = "";
 
         [GameParameters.CustomParameterUI("Use KSP skin")]
         public bool useKSPskin = true;

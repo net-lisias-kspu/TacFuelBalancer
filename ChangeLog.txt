@@ -1,5 +1,14 @@
 Tac Fuel Balancer
 =================
+2.21.1
+	Fixed InstallChecker to look for mod in PluginData directory
+	Fixed UI opening by default
+	Made the option to not show the Dump option only apply to the popup menu
+	Made the positioning of the toggles configurable and display optional of each
+	Made the pop-up menu optional
+	Added option to not show non-transferable resources
+	Changed location of saved config file from 
+		TacFuelBalancer\Plugins/PluginData/TacFuelBalancer\FuelBalancer.cfg to TacFuelBalancer\PluginData\FuelBalancer.cfg
 
 2.21
 	Adoption by Linuxgurugamer

@@ -53,6 +53,9 @@ namespace Tac
 
             if (labelStyle == null)
             {
+                Debug.Log("SettingsWindow.ConfigureStyles");
+                FuelBalanceController.settingsWindow.WindowClosed += OnWindowClosed;
+
                 labelStyle = new GUIStyle(_skin.label);
                 labelStyle.wordWrap = false;
                 labelStyle.fontStyle = FontStyle.Normal;
@@ -110,6 +113,14 @@ namespace Tac
 
             GUILayout.Space(4);
             GUI.Label(new Rect(4, windowPos.height - 13, windowPos.width - 20, 12), "TAC Fuel Balancer v" + version, versionStyle);
+        }
+
+
+        private void OnWindowClosed(object sender, EventArgs e)
+        {
+            Debug.Log("SettingsWindow.OnWindowClosed");
+            settings.SaveToStock();
+            FuelBalanceController.settingsWindow.WindowClosed -= OnWindowClosed;
         }
     }
 }

@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KSP.UI.Screens;
-using KSP.IO;
+//using KSP.IO;
 using ToolbarControl_NS;
 
 
@@ -69,7 +69,7 @@ namespace Tac
 
         internal static Settings settings = null;
         internal MainWindow mainWindow;
-        private SettingsWindow settingsWindow;
+        internal static SettingsWindow settingsWindow;
         private HelpWindow helpWindow;
         private string configFilename;
 		//private UnifiedButton button;
@@ -78,12 +78,14 @@ namespace Tac
 		private bool UiHidden;
 		private DateTime? _nextListRebuild;
 
-
-
+        public static string ROOT_PATH = KSPUtil.ApplicationRootPath;
+        private static string GAMEDATA_FOLDER = ROOT_PATH + "GameData/";
+        public static String MOD_FOLDER = GAMEDATA_FOLDER + "TacFuelBalancer/";
         void Awake()
         {
             this.Log("Awake");
-            configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
+            //configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
+            configFilename = MOD_FOLDER + "PluginData/FuelBalancer.cfg";
 
             if (settings == null)
                 settings = new Settings();
@@ -120,6 +122,7 @@ namespace Tac
         void OnDestroy()
         {
             this.Log("OnDestroy");
+            mainWindow.WindowClosed -= OnWindowClosed;
             Save();
             RemoveButtons();
         }
@@ -326,7 +329,8 @@ namespace Tac
         
         private void Load()
         {
-            if (File.Exists<FuelBalanceController>(configFilename))
+            //if (File.Exists<FuelBalanceController>(configFilename))
+            if (System.IO.File.Exists(configFilename))
             {
                 ConfigNode config = ConfigNode.Load(configFilename);
                 settings.Load(config);
@@ -710,12 +714,11 @@ namespace Tac
                 GameObject gameObject = new GameObject();
                 toolbarControl = gameObject.AddComponent<ToolbarControl>();
                 toolbarControl.AddToAllToolbars(DoOnButtonOn, DoOnButtonOff,
-                    ApplicationLauncher.AppScenes.FLIGHT |
-                    ApplicationLauncher.AppScenes.MAPVIEW,
+                    ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
                     "FB",
-                    "TacFuelBalancer/icons/icon-tac-fuel.png",
-                    "TacFuelBalancer/icons/icon-tac-fuel-small.png",
+                    "TacFuelBalancer/Icons/icon-tac-fuel.png",
+                    "TacFuelBalancer/Icons/icon-tac-fuel-small.png",
                     MODNAME);
             }
         }
