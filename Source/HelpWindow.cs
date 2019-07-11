@@ -40,6 +40,7 @@ namespace Tac
         public HelpWindow()
             : base("TAC Fuel Balancer Help", 500, Screen.height * 0.75f)
         {
+            Debug.Log("HelpWindow");
             scrollPosition = Vector2.zero;
         }
 

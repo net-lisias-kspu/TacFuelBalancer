@@ -54,6 +54,7 @@ namespace Tac
 
         public Settings()
         {
+            Debug.Log("Settings");
             MaxFuelFlow = 10.0;
             RateMultiplier = 1.0;
             FuelWarningLevel = 25.0;
@@ -78,6 +79,7 @@ namespace Tac
 
         public void LoadFromStock()
         {
+            Debug.Log("LoadFromStock");
             if (HighLogic.CurrentGame != null)
             {
                 MaxFuelFlow = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().MaxFuelFlow;

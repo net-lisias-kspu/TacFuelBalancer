@@ -43,6 +43,7 @@ namespace Tac
         public SettingsWindow(Settings settings)
             : base("TAC Fuel Balancer Settings", 240, 360)
         {
+            Debug.Log("SettingsWindow");
             this.settings = settings;
             version = Utilities.GetDllVersion(this);
         }

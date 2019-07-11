@@ -62,6 +62,7 @@ namespace Tac
         public MainWindow(FuelBalanceController controller, Settings settings, SettingsWindow settingsWindow, HelpWindow helpWindow)
             : base("TAC Fuel Balancer", 500, 500)
         {
+            Debug.Log("MainWindow");
             this.controller = controller;
             this.settings = settings;
             this.settingsWindow = settingsWindow;
