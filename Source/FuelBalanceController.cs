@@ -91,6 +91,8 @@ namespace Tac
                 settings = new Settings();
             if (settings == null)
                 Debug.Log("Error, settings is null");
+            else
+                Debug.Log("Settings inititalized");
             settingsWindow = new SettingsWindow(settings);
             helpWindow = new HelpWindow();
             mainWindow = new MainWindow(this, settings, settingsWindow, helpWindow);
