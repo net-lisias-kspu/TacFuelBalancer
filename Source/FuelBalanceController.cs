@@ -69,7 +69,9 @@ namespace Tac
 
         internal static Settings settings = null;
         internal MainWindow mainWindow;
+#if false
         internal static SettingsWindow settingsWindow;
+#endif
         private HelpWindow helpWindow;
         private string configFilename;
 		//private UnifiedButton button;
@@ -96,9 +98,11 @@ namespace Tac
                 Debug.Log("Error, settings is null");
             else
                 Debug.Log("Settings inititalized");
+#if false
             settingsWindow = new SettingsWindow(settings);
+#endif
             helpWindow = new HelpWindow();
-            mainWindow = new MainWindow(this, settings, settingsWindow, helpWindow);
+            mainWindow = new MainWindow(this, settings, /* settingsWindow, */ helpWindow);
 			mainWindow.WindowClosed += OnWindowClosed;
 			this.Log( "Making Buttons" );
 			InitButtons( );
@@ -268,7 +272,9 @@ namespace Tac
 				if( vesselInfo.vessel != null ) // Prevent exceptions
 				{
 					mainWindow.DrawWindow( );
-					settingsWindow.DrawWindow( );
+#if false
+                    settingsWindow.DrawWindow( );
+#endif
 					helpWindow.DrawWindow( );
 				}
 			}
@@ -341,7 +347,9 @@ namespace Tac
                 ConfigNode config = ConfigNode.Load(configFilename);
                 settings.Load(config);
                 mainWindow.Load(config);
+#if false
                 settingsWindow.Load(config);
+#endif
                 helpWindow.Load(config);
             }
         }
@@ -351,7 +359,9 @@ namespace Tac
             ConfigNode config = new ConfigNode();
             settings.Save(config);
             mainWindow.Save(config);
+#if false
             settingsWindow.Save(config);
+#endif
             helpWindow.Save(config);
 
             config.Save(configFilename);

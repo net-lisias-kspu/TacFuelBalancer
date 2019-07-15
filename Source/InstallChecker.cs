@@ -19,15 +19,16 @@ namespace Tac
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     internal class InstallChecker : MonoBehaviour
     {
-        private const string modName = "TAC Fuel Balancer";
-        private const string expectedPath = "TacFuelBalancer/Plugins";
+        private const string MODNAME = "TAC Fuel Balancer";
+        private const string FOLDERNAME = "TacFuelBalancer";
+        private const string EXPECTEDPATH = FOLDERNAME + "/Plugins";
 
         protected void Start()
         {
  //           this.Log("KSPUtil.ApplicationRootPath = " + KSPUtil.ApplicationRootPath);
 
             // Search for this mod's DLL existing in the wrong location. This will also detect duplicate copies because only one can be in the right place.
-            var assemblies = AssemblyLoader.loadedAssemblies.Where(a => a.assembly.GetName().Name == Assembly.GetExecutingAssembly().GetName().Name).Where(a => a.url != expectedPath);
+            var assemblies = AssemblyLoader.loadedAssemblies.Where(a => a.assembly.GetName().Name == Assembly.GetExecutingAssembly().GetName().Name).Where(a => a.url != EXPECTEDPATH);
             if (assemblies.Any())
             {
                 var badPaths = assemblies.Select(a => a.path).Select(p => Uri.UnescapeDataString(new Uri(Path.GetFullPath(KSPUtil.ApplicationRootPath)).MakeRelativeUri(new Uri(p)).ToString().Replace('/', Path.DirectorySeparatorChar)));
@@ -36,13 +37,13 @@ namespace Tac
 					new Vector2( 0.5f, 0.5f ),
 					new Vector2( 0.5f, 0.5f ),
 					"test",
-					"Incorrect " + modName + " Installation",
-                    modName + " has been installed incorrectly and will not function properly. All files should be located in KSP/GameData/" + expectedPath + ". Do not move any files from inside that folder.\n\nIncorrect path(s):\n" + String.Join("\n", badPaths.ToArray()),
+					"Incorrect " + MODNAME + " Installation",
+                    MODNAME + " has been installed incorrectly and will not function properly. All files should be located in KSP/GameData/" + FOLDERNAME + ". Do not move any files from inside that folder.\n\nIncorrect path(s):\n" + String.Join("\n", badPaths.ToArray()),
 					"OK",
                     false,
 					HighLogic.UISkin
 				);
-                Debug.Log("Incorrect " + modName + " Installation: " + modName + " has been installed incorrectly and will not function properly. All files should be located in KSP/GameData/" + expectedPath + ". Do not move any files from inside that folder.\n\nIncorrect path(s):\n" + String.Join("\n", badPaths.ToArray())
+                Debug.Log("Incorrect " + MODNAME + " Installation: " + MODNAME + " has been installed incorrectly and will not function properly. All files should be located in KSP/GameData/" + EXPECTEDPATH + ". Do not move any files from inside that folder.\n\nIncorrect path(s):\n" + String.Join("\n", badPaths.ToArray())
 
                      );
 

@@ -213,9 +213,10 @@ namespace Tac
         [GameParameters.CustomParameterUI("Use KSP skin")]
         public bool useKSPskin = true;
 
+#if false
         [GameParameters.CustomParameterUI("Disable old settings page")]
         public bool disableOldSettings = false;
-
+#endif
         [GameParameters.CustomParameterUI("Debug Mode")]
         public bool Debug = false;
 

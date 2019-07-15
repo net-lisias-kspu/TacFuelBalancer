@@ -36,7 +36,9 @@ namespace Tac
     {
         private readonly FuelBalanceController controller;
         private readonly Settings settings;
+#if false
         private readonly SettingsWindow settingsWindow;
+#endif
         private readonly HelpWindow helpWindow;
 
         private Vector2 headerScrollPosition = Vector2.zero;
@@ -59,13 +61,15 @@ namespace Tac
         private bool isControllable;
 
 
-        public MainWindow(FuelBalanceController controller, Settings settings, SettingsWindow settingsWindow, HelpWindow helpWindow)
+        public MainWindow(FuelBalanceController controller, Settings settings, /* SettingsWindow settingsWindow,*/ HelpWindow helpWindow)
             : base("TAC Fuel Balancer", 500, 500)
         {
             Debug.Log("MainWindow");
             this.controller = controller;
             this.settings = settings;
+#if false
             this.settingsWindow = settingsWindow;
+#endif
             this.helpWindow = helpWindow;
             //SetVisible(true);
 
@@ -102,7 +106,9 @@ namespace Tac
             base.SetVisible(newValue);
             if (!newValue)
             {
+#if false
                 settingsWindow.SetVisible(false);
+#endif
                 helpWindow.SetVisible(false);
                 foreach (ResourcePartMap part in EnumerateSelectedParts()) // hide automatic highlights when the window is closed
                 {
@@ -394,6 +400,7 @@ namespace Tac
             {
                 controller.RebuildActiveVesselLists();
             }
+#if false
             if (!HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_3>().disableOldSettings)
             {
                 if (GUI.Button(new Rect(windowPos.width - 48, 4, 20, 20), settingsContent, closeButtonStyle))
@@ -401,6 +408,7 @@ namespace Tac
                     settingsWindow.ToggleVisible();
                 }
             }
+#endif
             if (GUI.Button(new Rect(windowPos.width - 24, 4, 20, 20), helpContent, closeButtonStyle))
             {
                 helpWindow.ToggleVisible();

@@ -1,5 +1,10 @@
 Tac Fuel Balancer
 =================
+
+2.21.3
+	Updated InstallChecker slightly
+	Disabled the old settings screen
+
 2.21.2
 	Fixed build issue with embedded icon resources
 	Added info to help screens
