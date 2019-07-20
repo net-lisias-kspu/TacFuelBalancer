@@ -1,5 +1,8 @@
 Tac Fuel Balancer
 =================
+2.21.4
+	Adjusted position of reset resource lists button
+	Added code to load images from disk if unable to load from resource
 
 2.21.3
 	Updated InstallChecker slightly

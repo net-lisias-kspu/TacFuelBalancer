@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using ToolbarControl_NS;
 
 namespace Tac
 {
@@ -51,7 +52,9 @@ namespace Tac
         private GUIStyle popupButtonStyle;
         private GUIStyle editStyle;
 
+#if false
         private GUIContent settingsContent;
+#endif
         private GUIContent helpContent;
         private GUIContent resetContent;
 
@@ -73,6 +76,7 @@ namespace Tac
             this.helpWindow = helpWindow;
             //SetVisible(true);
 
+#if false
             //var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
             Texture2D settingstexture = null;
             try
@@ -81,23 +85,35 @@ namespace Tac
             }
             catch { }
             settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
-
+#endif
             //var helptexture = TextureHelper.FromResource("Tac.icons.help.png", 16, 16);
             Texture2D helptexture = null;
             try
             {
                 helptexture = TextureHelper.FromResource("icons.help.png", 16, 16);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.Log("exception loading helptexture from resource: " + ex.Message);
+                helptexture = new Texture2D(16, 16);
+                if (!ToolbarControl.LoadImageFromFile(ref helptexture, "GameData/TacFuelBalancer/Icons/help.png"))
+                    helptexture = null;
+            }
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
             //var resettexture = TextureHelper.FromResource("Tac.icons.reset.png", 16, 16);
-            Texture2D resettexture = null;
+            Texture2D resettexture;
             try
             {
                 resettexture = TextureHelper.FromResource("icons.reset.png", 16, 16);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.Log("exception loading resettexture from resource: " + ex.Message);
+                resettexture = new Texture2D(16, 16);
+                if (!ToolbarControl.LoadImageFromFile(ref resettexture, "GameData/TacFuelBalancer/Icons/reset.png"))
+                    resettexture = null;
+            }
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }
 
@@ -396,7 +412,11 @@ namespace Tac
 
 
             // Extra title bar buttons
+#if false
             if (GUI.Button(new Rect(windowPos.width - 72, 4, 20, 20), resetContent, closeButtonStyle))
+#else
+            if (GUI.Button(new Rect(windowPos.width - 48, 4, 20, 20), resetContent, closeButtonStyle))
+#endif
             {
                 controller.RebuildActiveVesselLists();
             }

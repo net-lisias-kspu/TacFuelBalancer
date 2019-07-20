@@ -41,7 +41,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="ToolbarControl">
+    <Reference Include="ToolbarControl, Version=0.1.8.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>R:\KSP_1.7.2_dev\GameData\001_ToolbarControl\Plugins\ToolbarControl.dll</HintPath>
     </Reference>
     <Reference Include="unBlur.0.5.0">
