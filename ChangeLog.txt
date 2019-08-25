@@ -1,5 +1,8 @@
 Tac Fuel Balancer
 =================
+2.21.4.1
+	Fixed toolbar icons by removing the file suffic at the toolbarControl creation
+
 2.21.4
 	Adjusted position of reset resource lists button
 	Added code to load images from disk if unable to load from resource

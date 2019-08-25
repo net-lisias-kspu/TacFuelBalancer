@@ -733,8 +733,8 @@ namespace Tac
                     ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
                     "FB",
-                    "TacFuelBalancer/Icons/icon-tac-fuel.png",
-                    "TacFuelBalancer/Icons/icon-tac-fuel-small.png",
+                    "TacFuelBalancer/Icons/icon-tac-fuel",
+                    "TacFuelBalancer/Icons/icon-tac-fuel-small",
                     MODNAME);
             }
         }
