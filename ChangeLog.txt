@@ -1,5 +1,8 @@
-Tac Fuel Balancer
-=================
+ChangeLog
+
+2.21.5
+	Updated for KSP 1.8
+
 2.21.4.1
 	Fixed toolbar icons by removing the file suffic at the toolbarControl creation
 
