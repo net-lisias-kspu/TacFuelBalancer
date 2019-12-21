@@ -80,10 +80,11 @@ namespace Tac
 		private bool UiHidden;
 		private DateTime? _nextListRebuild;
 
-        public static string ROOT_PATH = KSPUtil.ApplicationRootPath;
-        private static string GAMEDATA_FOLDER = ROOT_PATH + "GameData/";
-        public static String MOD_FOLDER = GAMEDATA_FOLDER + "TacFuelBalancer/";
-        public static string DATA_FOLDER = MOD_FOLDER + "PluginData/";
+        public static string ROOT_PATH { get { return KSPUtil.ApplicationRootPath; } }
+        private static string GAMEDATA_FOLDER { get { return ROOT_PATH + "GameData/"; } }
+        public static String MOD_FOLDER { get { return GAMEDATA_FOLDER + "TacFuelBalancer/"; } }
+        public static string DATA_FOLDER { get { return MOD_FOLDER + "PluginData/"; } }
+
         void Awake()
         {
             this.Log("Awake");

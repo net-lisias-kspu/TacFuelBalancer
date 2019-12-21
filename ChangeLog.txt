@@ -1,5 +1,8 @@
 ChangeLog
 
+2.21.5.1
+	Changed variables into properties to avoid calling unity functions when not allowed to call
+
 2.21.5
 	Updated for KSP 1.8
 
