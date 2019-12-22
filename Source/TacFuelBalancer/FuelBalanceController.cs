@@ -34,8 +34,10 @@ using KSP.UI.Screens;
 using ToolbarControl_NS;
 
 using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
+using PluginConfig = KSPe.IO.Data.ConfigNode;
 
 using Log = TacFuelBalancer.Log;
+using Startup = TacFuelBalancer.Startup;
 
 namespace Tac
 {
@@ -75,26 +77,19 @@ namespace Tac
         internal static SettingsWindow settingsWindow;
 #endif
         private HelpWindow helpWindow;
-        private string configFilename;
 		//private UnifiedButton button;
         private VesselInfo vesselInfo;
         private readonly List<VesselInfo> recentVessels = new List<VesselInfo>(MaxRecentVessels);
 		private bool UiHidden;
 		private DateTime? _nextListRebuild;
 
-        public static string ROOT_PATH { get { return KSPUtil.ApplicationRootPath; } }
-        private static string GAMEDATA_FOLDER { get { return ROOT_PATH + "GameData/"; } }
-        public static String MOD_FOLDER { get { return GAMEDATA_FOLDER + "net.lisias.ksp/TacFuelBalancer/"; } }
-        public static string DATA_FOLDER { get { return MOD_FOLDER + "PluginData/"; } }
+        private static readonly PluginConfig CONFIG = PluginConfig.ForType<Startup>(null, "FuelBalancer.cfg");
 
         void Awake()
         {
             Log.detail("Awake");
-            //configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
-            configFilename = DATA_FOLDER + "FuelBalancer.cfg";
-            Log.dbg("Awake, configFilename: {0}", configFilename);
-            // No need to check to see if the directory exists, will create it if it doesn't
-            System.IO.Directory.CreateDirectory(DATA_FOLDER);
+            Log.dbg("Awake, configFilename: {0}", CONFIG.Path);
+
             if (settings == null)
                 settings = new Settings();
             if (settings == null)
@@ -344,10 +339,9 @@ namespace Tac
         
         private void Load()
         {
-            //if (File.Exists<FuelBalanceController>(configFilename))
-            if (System.IO.File.Exists(configFilename))
+            if (CONFIG.IsLoadable)
             {
-                ConfigNode config = ConfigNode.Load(configFilename);
+                ConfigNode config = CONFIG.Load().Node;
                 settings.Load(config);
                 mainWindow.Load(config);
 #if false
@@ -367,7 +361,7 @@ namespace Tac
 #endif
             helpWindow.Save(config);
 
-            config.Save(configFilename);
+            CONFIG.Save(config);
         }
 
 		private void OnWindowClosed( object sender, EventArgs e )
