@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Thunder Aerosapce Corporation")]
 [assembly: AssemblyProduct("TAC Fuel Balancer")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright © 2019 LisiasT")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,3 +34,9 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyVersion("2.20.*")]
 
+[assembly: AssemblyFileVersion(TacFuelBalancer.Version.Number)]
+[assembly: AssemblyVersion(TacFuelBalancer.Version.Number)]
+[assembly: KSPAssembly("TacFuelBalancer", TacFuelBalancer.Version.major, TacFuelBalancer.Version.minor)]
+
+[assembly: KSPAssemblyDependency("KSPe", 2, 1)]
+[assembly: KSPAssemblyDependency("ToolbarController", 1, 0)]
