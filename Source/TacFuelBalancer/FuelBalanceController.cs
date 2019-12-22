@@ -33,6 +33,8 @@ using UnityEngine;
 using KSP.UI.Screens;
 using ToolbarControl_NS;
 
+using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
+
 using Log = TacFuelBalancer.Log;
 
 namespace Tac
@@ -721,7 +723,7 @@ namespace Tac
 
 
         private ToolbarControl toolbarControl;
-        internal const string MODID = "TAC";
+        internal const string MODID = "TACFUELBALANCER";
         internal const string MODNAME = "Tac Fuel Balancer";
 
         void InitToolbarController()
@@ -733,9 +735,9 @@ namespace Tac
                 toolbarControl.AddToAllToolbars(DoOnButtonOn, DoOnButtonOff,
                     ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
-                    "FB",
-                    "net.lisias.ksp/TacFuelBalancer/PluginData/Icons/icon-tac-fuel",
-                    "net.lisias.ksp/TacFuelBalancer/PluginData/Icons/icon-tac-fuel-small",
+                    MODID + "button",
+                    GDBAsset.Solve("Icons/icon-tac-fuel"),
+                    GDBAsset.Solve("Icons /icon-tac-fuel-small"),
                     MODNAME);
             }
         }

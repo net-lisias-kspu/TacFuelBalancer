@@ -29,7 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ToolbarControl_NS;
+
+using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
 
 using Log = TacFuelBalancer.Log;
 
@@ -95,7 +96,7 @@ namespace Tac
             catch (Exception ex)
             {
                 Log.dbg("exception loading helptexture from resource: " + ex.Message);
-                helptexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/net.lisias.ksp/TacFuelBalancer/PluginData/Icons/help");
+                helptexture = KSPe.Util.Image.Texture2D.Get(GDBAsset.Solve("Icons/help"), false);
             }
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
@@ -107,7 +108,7 @@ namespace Tac
             catch (Exception ex)
             {
                 Log.dbg("exception loading resettexture from resource: " + ex.Message);
-                resettexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/net.lisias.ksp/TacFuelBalancer/PluginData/Icons/reset");
+                resettexture = KSPe.Util.Image.Texture2D.Get(GDBAsset.Solve("Icons/reset"), false);
             }
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }
