@@ -27,7 +27,8 @@
 
 using System;
 using UnityEngine;
-using ClickThroughFix;
+
+using GUILayout = KSPe.UI.GUILayout;
 
 namespace Tac
 {
@@ -67,7 +68,7 @@ namespace Tac
             {
                 GUI.skin = HighLogic.Skin;
                 popupPos = Utilities.EnsureCompletelyVisible(popupPos);
-                popupPos = ClickThruBlocker.GUILayoutWindow(windowId, popupPos, DrawPopupContents, "");
+                popupPos = GUILayout.Window(windowId, popupPos, DrawPopupContents, "");
             }
         }
 

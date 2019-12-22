@@ -27,8 +27,10 @@
 using System;
 using UnityEngine;
 using KSP.UI.Dialogs;
-using ClickThroughFix;
 using ToolbarControl_NS;
+
+using GUI = KSPe.UI.GUI;
+using GUILayout = KSPe.UI.GUILayout;
 
 using Log = TacFuelBalancer.Log;
 
@@ -77,10 +79,8 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                texture = new Texture2D(16, 16);
-                if (!ToolbarControl.LoadImageFromFile(ref texture, "GameData/TacFuelBalancer/Icons/resize.png"))
-                    texture = null;
                 Log.dbg("exception loading resize texture from resource: " + ex.Message);
+                texture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/TacFuelBalancer/Icons/resize");
             }
             resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window") : new GUIContent("R", "Drag to resize the window");
 
@@ -92,10 +92,8 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                closetexture = new Texture2D(16, 16);
-                if (!ToolbarControl.LoadImageFromFile(ref closetexture, "GameData/TacFuelBalancer/Icons/close.png"))
-                    closetexture = null;
                 Log.dbg("exception loading closetexture from resource: " + ex.Message);
+                closetexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/TacFuelBalancer/Icons/close");
             }
             closeContent = ( closetexture != null ) ? new GUIContent( closetexture, "Close window" ) : new GUIContent( "X", "Close window" );
 
@@ -199,7 +197,7 @@ namespace Tac
 					    GUI.skin = _skin;
 
                     windowPos = Utilities.EnsureVisible(windowPos);
-                    windowPos = ClickThruBlocker.GUILayoutWindow(windowId, windowPos, PreDrawWindowContents, windowTitle, GUILayout.ExpandWidth(true),
+                    windowPos = GUILayout.Window(windowId, windowPos, PreDrawWindowContents, windowTitle, GUILayout.ExpandWidth(true),
                         GUILayout.ExpandHeight(true), GUILayout.MinWidth(64), GUILayout.MinHeight(64));
 
                     if (FuelBalanceController.settings.ShowTooltips)
@@ -223,7 +221,7 @@ namespace Tac
                             };
 
                             float boxHeight = _tooltipBoxStyle.CalcHeight(new GUIContent(_lastTooltip), 190);
-                            ClickThruBlocker.GUIWindow(_tooltipWindowId, new Rect(Mouse.screenPos.x + 15, Mouse.screenPos.y + 15, 200, boxHeight + 10), x =>
+                            GUI.Window(_tooltipWindowId, new Rect(Mouse.screenPos.x + 15, Mouse.screenPos.y + 15, 200, boxHeight + 10), x =>
                          {
                              GUI.Box(new Rect(5, 5, 190, boxHeight), _lastTooltip, _tooltipBoxStyle);
                          }, string.Empty, _tooltipStyle);

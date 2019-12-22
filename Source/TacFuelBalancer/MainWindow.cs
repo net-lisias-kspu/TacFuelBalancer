@@ -2,8 +2,8 @@
  * MainWindow.cs
  * 
  * Thunder Aerospace Corporation's Fuel Balancer for the Kerbal Space Program, by Taranis Elsu
- * 
  * (C) Copyright 2013, Taranis Elsu
+ * 
  * 
  * Kerbal Space Program is Copyright (C) 2013 Squad. See http://kerbalspaceprogram.com/. This
  * project is in no way associated with nor endorsed by Squad.
@@ -79,7 +79,6 @@ namespace Tac
             //SetVisible(true);
 
 #if false
-            //var settingstexture = TextureHelper.FromResource("Tac.icons.settings.png", 16, 16);
             Texture2D settingstexture = null;
             try
             {
@@ -88,7 +87,6 @@ namespace Tac
             catch { }
             settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
 #endif
-            //var helptexture = TextureHelper.FromResource("Tac.icons.help.png", 16, 16);
             Texture2D helptexture = null;
             try
             {
@@ -96,14 +94,11 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                helptexture = new Texture2D(16, 16);
-                if (!ToolbarControl.LoadImageFromFile(ref helptexture, "GameData/TacFuelBalancer/Icons/help.png"))
-                    helptexture = null;
                 Log.dbg("exception loading helptexture from resource: " + ex.Message);
+                helptexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/TacFuelBalancer/PluginData/Icons/help");
             }
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
-            //var resettexture = TextureHelper.FromResource("Tac.icons.reset.png", 16, 16);
             Texture2D resettexture;
             try
             {
@@ -111,10 +106,8 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                resettexture = new Texture2D(16, 16);
-                if (!ToolbarControl.LoadImageFromFile(ref resettexture, "GameData/TacFuelBalancer/Icons/reset.png"))
-                    resettexture = null;
                 Log.dbg("exception loading resettexture from resource: " + ex.Message);
+                resettexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/TacFuelBalancer/Icons/reset");
             }
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }
