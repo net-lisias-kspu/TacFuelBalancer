@@ -25,8 +25,7 @@
  * is purely coincidental.
  */
 
-using System;
-using System.Linq;
+using Log = TacFuelBalancer.Log;
 
 namespace Tac
 {
@@ -54,7 +53,7 @@ namespace Tac
 
         public Settings()
         {
-            Debug.Log("Settings");
+            Log.dbg("Settings");
             MaxFuelFlow = 10.0;
             RateMultiplier = 1.0;
             FuelWarningLevel = 25.0;
@@ -79,7 +78,7 @@ namespace Tac
 
         public void LoadFromStock()
         {
-            Debug.Log("LoadFromStock");
+            Log.dbg("LoadFromStock");
             if (HighLogic.CurrentGame != null)
             {
                 MaxFuelFlow = HighLogic.CurrentGame.Parameters.CustomParams<TacSettings_2>().MaxFuelFlow;

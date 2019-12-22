@@ -31,9 +31,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KSP.UI.Screens;
-//using KSP.IO;
 using ToolbarControl_NS;
 
+using Log = TacFuelBalancer.Log;
 
 namespace Tac
 {
@@ -87,27 +87,27 @@ namespace Tac
 
         void Awake()
         {
-            this.Log("Awake");
+            Log.detail("Awake");
             //configFilename = IOUtils.GetFilePathFor(this.GetType(), "FuelBalancer.cfg");
             configFilename = DATA_FOLDER + "FuelBalancer.cfg";
-            Debug.Log("Awake, configFilename: " + configFilename);
+            Log.dbg("Awake, configFilename: {0}", configFilename);
             // No need to check to see if the directory exists, will create it if it doesn't
             System.IO.Directory.CreateDirectory(DATA_FOLDER);
             if (settings == null)
                 settings = new Settings();
             if (settings == null)
-                Debug.Log("Error, settings is null");
+                Log.dbg("Error, settings is null");
             else
-                Debug.Log("Settings inititalized");
+                Log.dbg("Settings inititalized");
 #if false
             settingsWindow = new SettingsWindow(settings);
 #endif
             helpWindow = new HelpWindow();
             mainWindow = new MainWindow(this, settings, /* settingsWindow, */ helpWindow);
 			mainWindow.WindowClosed += OnWindowClosed;
-			this.Log( "Making Buttons" );
+			Log.dbg( "Making Buttons" );
 			InitButtons( );
-			this.Log( "Made Buttons" );
+			Log.dbg( "Made Buttons" );
             
             vesselInfo = new VesselInfo( );
         }
@@ -116,7 +116,7 @@ namespace Tac
 
         void Start()
         {
-            this.Log( "Start" );
+            Log.detail( "Start" );
             Load( );
 
 
@@ -132,7 +132,7 @@ namespace Tac
 
         void OnDestroy()
         {
-            this.Log("OnDestroy");
+            Log.detail("OnDestroy");
             mainWindow.WindowClosed -= OnWindowClosed;
             Save();
             RemoveButtons();
@@ -157,14 +157,14 @@ namespace Tac
         {
             if (!FlightGlobals.ready)
             {
-                this.Log("FlightGlobals are not valid yet.");
+                Log.detail("FlightGlobals are not valid yet.");
                 return;
             }
 
             Vessel activeVessel = FlightGlobals.fetch.activeVessel;
             if (activeVessel == null)
             {
-                this.Log("No active vessel yet.");
+                Log.detail("No active vessel yet.");
                 return;
             }
 
@@ -438,7 +438,7 @@ namespace Tac
 
         private void RebuildLists(Vessel vessel)
         {
-            this.Log("Rebuilding resource lists.");
+            Log.detail("Rebuilding resource lists.");
             // try to restore the old vessel info if we're switching vessels
             if (vesselInfo.vessel != vessel)
             {
@@ -713,10 +713,10 @@ namespace Tac
 		/// </summary>
 		private void InitButtons( )
 		{
-//			this.Log( "InitButtons" );
+            Log.dbg( "InitButtons" );
 			RemoveButtons( );
 			AddButtons( );
-//			this.Log( "InitButtons Done" );
+            Log.dbg( "InitButtons Done" );
 		}
 
 

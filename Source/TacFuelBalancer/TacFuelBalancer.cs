@@ -37,25 +37,25 @@ namespace Tac
         //public override void OnAwake()
         //{
         //    base.OnAwake();
-        //    Debug.Log("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnAwake");
+        //    Log.dbg("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnAwake");
         //}
 
         //public override void OnLoad(ConfigNode node)
         //{
         //    base.OnLoad(node);
-        //    Debug.Log("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnLoad");
+        //    Log.dbg("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnLoad");
         //}
 
         //public override void OnSave(ConfigNode node)
         //{
         //    base.OnSave(node);
-        //    Debug.Log("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnSave");
+        //    Log.dbg("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnSave");
         //}
 
         //public override void OnStart(PartModule.StartState state)
         //{
         //    base.OnStart(state);
-        //    Debug.Log("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnStart: " + state);
+        //    Log.dbg("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: OnStart: " + state);
 
         //    if (state != StartState.Editor)
         //    {
@@ -71,7 +71,7 @@ namespace Tac
 
         //private void CleanUp()
         //{
-        //    Debug.Log("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: CleanUp");
+        //    Log.dbg("TAC Fuel Balancer [" + this.GetInstanceID().ToString("X") + "][" + Time.time + "]: CleanUp");
         //}
 
         //[KSPEvent(guiActive = true, guiName = "Show Fuel Balancer", active = true)]

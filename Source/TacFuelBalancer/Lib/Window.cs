@@ -26,10 +26,11 @@
  */
 using System;
 using UnityEngine;
-using KSP.IO;
 using KSP.UI.Dialogs;
 using ClickThroughFix;
 using ToolbarControl_NS;
+
+using Log = TacFuelBalancer.Log;
 
 namespace Tac
 {
@@ -76,10 +77,10 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                Debug.Log("exception loading resize texture from resource: " + ex.Message);
                 texture = new Texture2D(16, 16);
                 if (!ToolbarControl.LoadImageFromFile(ref texture, "GameData/TacFuelBalancer/Icons/resize.png"))
                     texture = null;
+                Log.dbg("exception loading resize texture from resource: " + ex.Message);
             }
             resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window") : new GUIContent("R", "Drag to resize the window");
 
@@ -91,10 +92,10 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                Debug.Log("exception loading closetexture from resource: " + ex.Message);
                 closetexture = new Texture2D(16, 16);
                 if (!ToolbarControl.LoadImageFromFile(ref closetexture, "GameData/TacFuelBalancer/Icons/close.png"))
                     closetexture = null;
+                Log.dbg("exception loading closetexture from resource: " + ex.Message);
             }
             closeContent = ( closetexture != null ) ? new GUIContent( closetexture, "Close window" ) : new GUIContent( "X", "Close window" );
 

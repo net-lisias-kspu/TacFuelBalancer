@@ -31,6 +31,8 @@ using System.Linq;
 using UnityEngine;
 using ToolbarControl_NS;
 
+using Log = TacFuelBalancer.Log;
+
 namespace Tac
 {
     class MainWindow : Window<TacFuelBalancer>
@@ -67,7 +69,7 @@ namespace Tac
         public MainWindow(FuelBalanceController controller, Settings settings, /* SettingsWindow settingsWindow,*/ HelpWindow helpWindow)
             : base("TAC Fuel Balancer", 500, 500)
         {
-            Debug.Log("MainWindow");
+            Log.dbg("MainWindow");
             this.controller = controller;
             this.settings = settings;
 #if false
@@ -94,10 +96,10 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                Debug.Log("exception loading helptexture from resource: " + ex.Message);
                 helptexture = new Texture2D(16, 16);
                 if (!ToolbarControl.LoadImageFromFile(ref helptexture, "GameData/TacFuelBalancer/Icons/help.png"))
                     helptexture = null;
+                Log.dbg("exception loading helptexture from resource: " + ex.Message);
             }
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
@@ -109,10 +111,10 @@ namespace Tac
             }
             catch (Exception ex)
             {
-                Debug.Log("exception loading resettexture from resource: " + ex.Message);
                 resettexture = new Texture2D(16, 16);
                 if (!ToolbarControl.LoadImageFromFile(ref resettexture, "GameData/TacFuelBalancer/Icons/reset.png"))
                     resettexture = null;
+                Log.dbg("exception loading resettexture from resource: " + ex.Message);
             }
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }

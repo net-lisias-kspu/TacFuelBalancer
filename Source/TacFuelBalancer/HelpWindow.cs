@@ -25,9 +25,9 @@
  * is purely coincidental.
  */
 
-using System;
-using System.Linq;
 using UnityEngine;
+
+using Log = TacFuelBalancer.Log;
 
 namespace Tac
 {
@@ -40,7 +40,7 @@ namespace Tac
         public HelpWindow()
             : base("TAC Fuel Balancer Help", 500, Screen.height * 0.75f)
         {
-            Debug.Log("HelpWindow");
+            Log.dbg("HelpWindow");
             scrollPosition = Vector2.zero;
         }
 

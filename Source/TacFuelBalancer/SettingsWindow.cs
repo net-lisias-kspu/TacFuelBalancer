@@ -43,7 +43,7 @@ namespace Tac
         public SettingsWindow(Settings settings)
             : base("TAC Fuel Balancer Settings", 240, 360)
         {
-            Debug.Log("SettingsWindow");
+            Log.dbg("SettingsWindow");
             this.settings = settings;
             version = Utilities.GetDllVersion(this);
         }
@@ -54,7 +54,7 @@ namespace Tac
 
             if (labelStyle == null)
             {
-                Debug.Log("SettingsWindow.ConfigureStyles");
+                Log.dbg("SettingsWindow.ConfigureStyles");
                 FuelBalanceController.settingsWindow.WindowClosed += OnWindowClosed;
 
                 labelStyle = new GUIStyle(_skin.label);
@@ -119,7 +119,7 @@ namespace Tac
 
         private void OnWindowClosed(object sender, EventArgs e)
         {
-            Debug.Log("SettingsWindow.OnWindowClosed");
+            Log.dbg("SettingsWindow.OnWindowClosed");
             settings.SaveToStock();
             FuelBalanceController.settingsWindow.WindowClosed -= OnWindowClosed;
         }
