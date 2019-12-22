@@ -20,21 +20,23 @@ The following file layout must be present after installation:
 ```
 <KSP_ROOT>
 	[GameData]
-		[TacFuelBalancer]
-			[PluginData]
-				[Icons]
-					close.png
-					...
-			CHANGE_LOG.md
-			LICENSE
-			NOTICE
-			TacFuelBalancer.dll
-			...
+		[net.lisias.ksp]
+			[TacFuelBalancer]
+				[PluginData]
+					[Icons]
+						close.png
+						...
+				CHANGE_LOG.md
+				LICENSE
+				NOTICE
+				TacFuelBalancer.dll
+				...
 		000_KSPe.dll
 		...
 	[PluginData]
-		[TacFuelBalancer] <not present until you run it for the fist time>
-			ToolbarControl.cfg 
+		[net.lisias.ksp]
+			[TacFuelBalancer] <not present until you run it for the fist time>
+				FuelBalancer.cfg 
 	KSP.log
 	PartDatabase.cfg
 	...

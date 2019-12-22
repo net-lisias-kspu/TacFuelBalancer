@@ -80,7 +80,7 @@ namespace Tac
             catch (Exception ex)
             {
                 Log.dbg("exception loading resize texture from resource: " + ex.Message);
-                texture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/TacFuelBalancer/Icons/resize");
+                texture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/net.lisias.ksp/TacFuelBalancer/PluginData/Icons/resize");
             }
             resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window") : new GUIContent("R", "Drag to resize the window");
 
@@ -93,7 +93,7 @@ namespace Tac
             catch (Exception ex)
             {
                 Log.dbg("exception loading closetexture from resource: " + ex.Message);
-                closetexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/TacFuelBalancer/Icons/close");
+                closetexture = KSPe.Util.Image.Texture2D.LoadFromFile("GameData/net.lisias.ksp/TacFuelBalancer/PluginData/Icons/close");
             }
             closeContent = ( closetexture != null ) ? new GUIContent( closetexture, "Close window" ) : new GUIContent( "X", "Close window" );
 

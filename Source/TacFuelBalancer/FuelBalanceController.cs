@@ -82,7 +82,7 @@ namespace Tac
 
         public static string ROOT_PATH { get { return KSPUtil.ApplicationRootPath; } }
         private static string GAMEDATA_FOLDER { get { return ROOT_PATH + "GameData/"; } }
-        public static String MOD_FOLDER { get { return GAMEDATA_FOLDER + "TacFuelBalancer/"; } }
+        public static String MOD_FOLDER { get { return GAMEDATA_FOLDER + "net.lisias.ksp/TacFuelBalancer/"; } }
         public static string DATA_FOLDER { get { return MOD_FOLDER + "PluginData/"; } }
 
         void Awake()
@@ -734,8 +734,8 @@ namespace Tac
                     ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
                     "FB",
-                    "TacFuelBalancer/Icons/icon-tac-fuel",
-                    "TacFuelBalancer/Icons/icon-tac-fuel-small",
+                    "net.lisias.ksp/TacFuelBalancer/PluginData/Icons/icon-tac-fuel",
+                    "net.lisias.ksp/TacFuelBalancer/PluginData/Icons/icon-tac-fuel-small",
                     MODNAME);
             }
         }
