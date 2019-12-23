@@ -1,5 +1,14 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2014-0817: 2.4 (taraniselsu) for KSP 0.24.2.
+	+ Changes
+		- Updated for KSP 0.24.2.
+		- Bug fix: was letting the user edit fuel levels on other planets/moons besides Kerbin.
+		- Bug fix: the popup window should now close when the user clicks anywhere outside the popup
+		- window.
+		- Added an Install Checker.
+		- Displays the mod's version number in the Settings window.
+		- Added support for the [KSP Add-on Version Checker (KSP-AVC)](http://forum.kerbalspaceprogram.com/threads/71488) and the [KSP-AVC plug-in](http://forum.kerbalspaceprogram.com/threads/79745)
 * 2014-0608: 2.3.0.2 (_ForgeUser15750166) for KSP ['0.23.5', '0.23']
 	+ No changelog provided
 * 2013-1223: 2.3 (taraniselsu) for KSP 0.23
