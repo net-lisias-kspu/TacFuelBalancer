@@ -1,5 +1,7 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2019-1221: 2.21.5.1 (linuxgurugamer) for KSP 1.8.0
+	+ Changed variables into properties to avoid calling unity functions when not allowed to call
 * 2019-1109: 2.21.5 (linuxgurugamer) for KSP 1.8.0
 	+ updated for KSP 1.8
 * 2019-0825: 2.21.4.1 (linuxgurugamer) for KSP 1.7.3
