@@ -1,5 +1,11 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2014-1011: 2.4.1 (taraniselsu) for KSP 0.25
+	+ Changes
+		- Updated for KSP 0.25
+		- The fuel transfer rate is now affected by time warp.
+		- Reorganized the directory structure so that it is no longer placed in ThunderAerospace.
+			- Warning: make sure that you completely uninstall any previous versions. I moved everything from KSP/GameData/ThunderAerospace/TacFuelBalancer to just KSP/GameData/TacFuelBalancer_
 * 2014-0817: 2.4.0.3 (_ForgeUser15750166) for KSP 0.24.2
 	+ Updated for KSP 0.24.2.
 	+ Bug fix: was letting the user edit fuel levels on other planets/moons besides Kerbin.
