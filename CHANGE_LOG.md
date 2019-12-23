@@ -1,5 +1,8 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2019-0715: 2.21.3 (linuxgurugamer) for KSP [1.5.1, 1.6.1, 1.7.2] PRE-RELEASE
+	+ Updated InstallChecker slightly
+	+ Disabled the old settings screen
 * 2019-0711: 2.21.2 (linuxgurugamer) for KSP [1.5.1, 1.6.1, 1.7.2] PRE-RELEASE
 * 2019-0710: 2.21.0 (linuxgurugamer) for KSP [1.5.1, 1.6.1, 1.7.2] PRE-RELEASE
 * 2018-0816: 2.20 (zkeyaerospace) for KSP 1.4.5
