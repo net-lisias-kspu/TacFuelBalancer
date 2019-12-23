@@ -1,5 +1,10 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2016-0622: 2.8 (zkeyaerospace) for KSP 1.1.3
+	+ 22-June-2016 Built against KSP V1.1.3
+			- Resource buttons act like tabs by default
+			- Help and settings buttons toggle visibility
+			- ToolTips
 * 2016-0615: 2.7 (zkeyaerospace) for KSP 1.1.2
 	+ 14-June-2016 Built against KSP V1.1.2
 			- Stock toolbar "Launcher" button
