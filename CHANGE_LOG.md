@@ -1,5 +1,12 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2016-0615: 2.7 (zkeyaerospace) for KSP 1.1.2
+	+ 14-June-2016 Built against KSP V1.1.2
+			- Stock toolbar "Launcher" button
+			- New icon set
+			- F2 support
+			- Reset button
+			- Support for mods that change tank contents
 * 2016-0511: 2.6 (zkeyaerospace) for KSP 1.1.2
 	+ 10-May-2016 Built against KSP V1.1.2
 			- Added changes by AdamMil
