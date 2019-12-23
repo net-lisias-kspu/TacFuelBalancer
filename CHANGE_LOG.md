@@ -1,5 +1,8 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2016-1024: 2.10 (zkeyaerospace) for KSP 1.2
+	+ 24-Oct-2016 Built against KSP V1.2
+			- Fix for Contract Configurator/Toolbar bug
 * 2016-1015: 2.9 (zkeyaerospace) for KSP 1.2
 	+ 15-Oct-2016 Built against KSP V1.2
 			- Rebuilt for KSP 1.2
