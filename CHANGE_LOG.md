@@ -1,5 +1,8 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2018-0816: 2.20 (zkeyaerospace) for KSP 1.4.5
+	+ 06-Aug-2018 Built against KSP V1.4.5
+			- Rebuilt for new version of KSP
 * 2018-0706: 2.19 (zkeyaerospace) for KSP 1.4.4
 	+ 06-July-2018 Built against KSP V1.4.4
 			- Rebuilt for new version of KSP
