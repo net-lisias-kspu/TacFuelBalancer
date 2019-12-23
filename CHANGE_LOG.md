@@ -1,5 +1,9 @@
 # TAC Fuel Balancer :: Change Log
 
+<<<<<<< HEAD
+=======
+* 2019-0825: 2.21.4.1 (linuxgurugamer) for KSP 1.7.2
+	+ Fixed toolbar icons by removing the file suffic at the toolbarControl creation
 * 2019-0720: 2.21.4 (linuxgurugamer) for KSP [1.5.1, 1.6.1, 1.7.2]
 	+ 2.21
 	+ Adoption by Linuxgurugamer
