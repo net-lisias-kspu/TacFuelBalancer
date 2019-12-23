@@ -1,5 +1,13 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2019-1223: 2.21.5.2 (lisias) for KSP >= 1.4.1
+	+ Making the thing to work again from KSP 1.4.1 and newer
+	+ Moving Plugin to `net.lisias.ksp` hierarchy to prevent clashes with the upstream
+		- It can be done to partless Add'Ons!
+	+ Using KSPe facilities
+		- Logging
+		- Abstracted File System
+		- Installment checks
 * 2019-1221: 2.21.5.1 (linuxgurugamer) for KSP 1.8.0
 	+ Changed variables into properties to avoid calling unity functions when not allowed to call
 * 2019-1109: 2.21.5 (linuxgurugamer) for KSP 1.8.0
