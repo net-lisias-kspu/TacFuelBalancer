@@ -1,5 +1,8 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2016-1015: 2.9 (zkeyaerospace) for KSP 1.2
+	+ 15-Oct-2016 Built against KSP V1.2
+			- Rebuilt for KSP 1.2
 * 2016-0622: 2.8 (zkeyaerospace) for KSP 1.1.3
 	+ 22-June-2016 Built against KSP V1.1.3
 			- Resource buttons act like tabs by default
