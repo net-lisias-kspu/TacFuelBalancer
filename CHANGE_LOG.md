@@ -1,5 +1,42 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2019-0720: 2.21.4 (linuxgurugamer) for KSP [1.5.1, 1.6.1, 1.7.2]
+	+ 2.21
+	+ Adoption by Linuxgurugamer
+	+ Rebuilt for 1.5.1, 1.6.1, 1.7.0
+	+ Removed all old toolbar code, about 1500 lines
+	+ Added support for the ToolbarController
+	+ Added support for the ClickThroughBlocker
+	+ Added fast toggles to fuel balance window
+	+ Added new settings:
+	+ ShowToggles
+	+ ShowTooltips
+	+ Make text in menu button yellow
+	+ Added settings option to make tooltips optional
+	+ Made edit mode only available when in sandbox mode (beginning of integrating career modes)
+	+ Added a stock settings page, works alongside current settings page
+	+ Added option to not use the KSP skin A
+	+ dded option to disable old settings window
+	+ 2.21.1
+	+ Fixed InstallChecker to look for mod in PluginData directory
+	+ Fixed UI opening by default
+	+ Made the option to not show the Dump option only apply to the popup menu
+	+ Made the positioning of the toggles configurable and display optional of each
+	+ Made the pop-up menu optional
+	+ Added option to not show non-transferable resources
+	+ Changed location of saved config file from TacFuelBalancer\Plugins/PluginData/TacFuelBalancer\FuelBalancer.cfg to TacFuelBalancer\PluginData\FuelBalancer.cfg
+	+ 2.21.2
+	+ Fixed build issue with embedded icon resources
+	+ Added info to help screens
+	+ Moved settings around a little bit
+	+ Added code to create the PluginData directory if it doesn't exist
+	+ Fixed tooltip not hiding when showing the popup-menu
+	+ 2.21.3
+	+ Updated InstallChecker slightly
+	+ Disabled the old settings screen
+	+ 2.21.4
+	+ Adjusted position of reset resource lists button
+	+ Added code to load images from disk if unable to load from resource
 * 2019-0715: 2.21.3 (linuxgurugamer) for KSP [1.5.1, 1.6.1, 1.7.2] PRE-RELEASE
 	+ Updated InstallChecker slightly
 	+ Disabled the old settings screen
