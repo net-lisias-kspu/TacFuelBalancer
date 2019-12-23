@@ -1,5 +1,7 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2016-1208: 2.12 (zkeyaerospace) for KSP 1.2.2
+	+ 07-Dec-2016 Built against KSP V1.2.2
 * 2016-1104: 2.11c (zkeyaerospace) for KSP 1.2.1
 	+ Really removed dodgy config file this time.
 * 2016-1104: 2.11b (zkeyaerospace) for KSP 1.2.1
