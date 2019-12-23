@@ -1,5 +1,7 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2014-0608: 2.3.0.2 (_ForgeUser15750166) for KSP ['0.23.5', '0.23']
+	+ No changelog provided
 * 2013-1223: 2.3 (taraniselsu) for KSP 0.23
 	+ Changes
 		- Integrated with the Toolbar mod.
