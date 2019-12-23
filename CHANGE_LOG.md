@@ -1,5 +1,8 @@
 # TAC Fuel Balancer :: Change Log
 
+* 2015-0502: 2.5.1 (taraniselsu) for KSP 1.0.2
+	+ Changes
+		- Updated for KSP 1.0.2
 * 2015-0430: 2.5 (taraniselsu) for KSP 1.0
 	+ Changes
 		- Updated for KSP 1.0
