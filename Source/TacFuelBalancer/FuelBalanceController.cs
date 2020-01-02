@@ -34,7 +34,7 @@ using KSP.UI.Screens;
 using ToolbarControl_NS;
 
 using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
-using PluginConfig = KSPe.IO.Data.ConfigNode;
+using PluginConfig = KSPe.IO.Data<TacFuelBalancer.Startup>.ConfigNode;
 
 using Log = TacFuelBalancer.Log;
 using Startup = TacFuelBalancer.Startup;
@@ -83,7 +83,7 @@ namespace Tac
 		private bool UiHidden;
 		private DateTime? _nextListRebuild;
 
-        private static readonly PluginConfig CONFIG = PluginConfig.ForType<Startup>(null, "FuelBalancer.cfg");
+        private static readonly PluginConfig CONFIG = PluginConfig.For(null, "FuelBalancer.cfg");
 
         void Awake()
         {
