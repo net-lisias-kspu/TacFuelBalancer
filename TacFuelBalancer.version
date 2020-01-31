@@ -1,9 +1,9 @@
 {
 	"NAME"		: "TAC Fuel Balancer /L Unofficial",
 	"URL"		: "https://raw.githubusercontent.com/net-lisias-kspu/TacFuelBalancer/master/TacFuelBalancer.version",
-	"DOWNLOAD"	: "https://github.com/net.lisias.kspu/TacFuelBalander/releases",
-	"CHANGE_LOG"	: "https://raw.githubusercontent.com/net-lisias-kspu/TacFuelBalancer/CHANGE_LOG.md",
-	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/net-lisias-kspu/TacFuelBalancer/CHANGES.md",
+	"DOWNLOAD"	: "https://github.com/net-lisias-kspu/TacFuelBalander/releases",
+	"CHANGE_LOG"	: "https://raw.githubusercontent.com/net-lisias-kspu/TacFuelBalancer/master/CHANGE_LOG.md",
+	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/net-lisias-kspu/TacFuelBalancer/master/CHANGES.md",
 	"VERSION":{
 		"MAJOR":2,
 		"MINOR":21,
