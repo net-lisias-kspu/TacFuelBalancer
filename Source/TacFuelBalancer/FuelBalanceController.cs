@@ -33,7 +33,7 @@ using UnityEngine;
 using KSP.UI.Screens;
 using ToolbarControl_NS;
 
-using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
+using PluginData = KSPe.IO.File<TacFuelBalancer.Startup>.Asset;
 using PluginConfig = KSPe.IO.Data<TacFuelBalancer.Startup>.ConfigNode;
 
 using Log = TacFuelBalancer.Log;
@@ -730,8 +730,8 @@ namespace Tac
                     ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
                     MODID,
                     MODID + "button",
-                    GDBAsset.Solve("Icons/icon-tac-fuel"),
-                    GDBAsset.Solve("Icons /icon-tac-fuel-small"),
+                    PluginData.Solve("Icons/icon-tac-fuel"),
+                    PluginData.Solve("Icons/icon-tac-fuel-small"),
                     MODNAME);
             }
         }
