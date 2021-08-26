@@ -1,5 +1,9 @@
 ChangeLog
 
+2.21.5.2
+	Added AssemblyFileVersion
+	Updated version file for 1.12
+
 2.21.5.1
 	Changed variables into properties to avoid calling unity functions when not allowed to call
 
