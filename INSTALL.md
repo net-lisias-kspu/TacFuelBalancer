@@ -1,6 +1,8 @@
-# TAC Fuel Balancer /L Unofficial
+# TAC Fuel Balancer /L Unleashed
 
-A Fuel Balancer from Thunder Aerospace Corporation (TAC), designed by Taranis Elsu. Unofficial fork by Lisias.
+A Fuel Balancer from Thunder Aerospace Corporation (TAC), designed by Taranis Elsu.
+
+[Unleashed](https://ksp.lisias.net/add-ons-unleashed/) fork by Lisias.
 
 
 ## Installation Instructions

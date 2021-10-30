@@ -74,6 +74,7 @@
     <Compile Include="Properties\Version.cs">
       <DependentUpon>Version.tt</DependentUpon>
     </Compile>
+    <Compile Include="Properties\LegalMamboJambo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\icon-tac-fuel-small.png" />
@@ -82,7 +83,6 @@
     <EmbeddedResource Include="icons\help.png" />
     <EmbeddedResource Include="icons\settings.png" />
     <EmbeddedResource Include="icons\reset.png" />
-    <Content Include="ToDo.txt" />
     <EmbeddedResource Include="icons\resize.png" />
   </ItemGroup>
   <ItemGroup>

@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TAC Fuel Balancer")]
+[assembly: AssemblyTitle("TAC Fuel Balancer /L Unleashed")]
 [assembly: AssemblyDescription("Fuel Balancer addon for Kerbal Space Program")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Thunder Aerosapce Corporation")]
-[assembly: AssemblyProduct("TAC Fuel Balancer")]
-[assembly: AssemblyCopyright("Copyright © 2019 LisiasT")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany(TacFuelBalancer.LegalMamboJambo.Company)]
+[assembly: AssemblyProduct(TacFuelBalancer.LegalMamboJambo.Product)]
+[assembly: AssemblyCopyright(TacFuelBalancer.LegalMamboJambo.Copyright)]
+[assembly: AssemblyTrademark(TacFuelBalancer.LegalMamboJambo.Trademark)]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

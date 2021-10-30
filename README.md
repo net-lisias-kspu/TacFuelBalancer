@@ -1,6 +1,8 @@
-# TAC Fuel Balancer /L Unofficial
+# Thunder Aerospace Corporation's (TAC) Fuel Balancer /L Unleashed
 
-A Fuel Balancer from Thunder Aerospace Corporation (TAC), designed by Taranis Elsu. Unofficial fork by Lisias.
+A Fuel Balancer from Thunder Aerospace Corporation (TAC), designed by Taranis Elsu.
+
+[Unleashed](https://ksp.lisias.net/add-ons-unleashed/) fork by Lisias.
 
 
 ## In a Hurry
@@ -63,24 +65,29 @@ Click the "X" button to close the window.
 
 Detailed installation instructions are now on its own file (see the [In a Hurry](#in-a-hurry) section) and on the distribution file.
 
-### License:
 
-Released under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). See [here](./LICENSE)
+## License:
+
+Released under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). See [here](./LICENSE):
+
+* Attribution — You are free to modify this work, so long as you mention that the resulting work is based upon or adapted from this work.
+* Non-commercial - You may not use this work for commercial purposes.
+* Share Alike — If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to the CC BY-NC-SA 3.0 license.
 
 Please note the copyrights and trademarks in [NOTICE](./NOTICE)
 
 
 ## UPSTREAM
 
-* [linuxgurugamer](https://forum.kerbalspaceprogram.com/index.php?/profile/129964-linuxgurugamer/) ROOT / Current Maintainer
-	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/186526-*)
-	+ [SpaceDock](https://spacedock.info/mod/640/TacFuelBalancer)
-	+ [GitHub](https://github.com/linuxgurugamer/TacFuelBalancer)
-* [Z-Key Aerospace](https://forum.kerbalspaceprogram.com/index.php?/profile/138926-z-key-aerospace/)
+* [Taranis Elsu](https://forum.kerbalspaceprogram.com/index.php?/profile/57742-taraniselsu/) ROOT
+	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/23808-*)
+	+ [CurseForge](https://www.curse.com/ksp-mods/kerbal/221160-tac-fuel-balancer)
+	+ [GitHub](https://github.com/taraniselsu/TacFuelBalancer)
+* [Z-Key Aerospace](https://forum.kerbalspaceprogram.com/index.php?/profile/138926-z-key-aerospace/) Previous
 	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/139223-*)
 	+ [Homepage](https://themoose.co.uk/ksp/downloads.html)
 	+ [GitHub](https://github.com/thewebbooth/TacFuelBalancer)
-* [Taranis Elsu](https://forum.kerbalspaceprogram.com/index.php?/profile/57742-taraniselsu/)
-	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/23808-*)
-	+ [CurseForge](https://www.curse.com/ksp-mods/kerbal/221160-tac-fuel-balancer)
-	+ [GitHub](https://github.com/thewebbooth/TacFuelBalancer)
+* [linuxgurugamer](https://forum.kerbalspaceprogram.com/index.php?/profile/129964-linuxgurugamer/) Current
+	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/186526-*)
+	+ [SpaceDock](https://spacedock.info/mod/640/TacFuelBalancer)
+	+ [GitHub](https://github.com/linuxgurugamer/TacFuelBalancer)

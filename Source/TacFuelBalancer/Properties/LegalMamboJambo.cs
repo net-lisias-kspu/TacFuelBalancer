@@ -14,26 +14,14 @@
 	warranty of	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 */
-using UnityEngine;
-
+using System;
 namespace TacFuelBalancer
 {
-    [KSPAddon(KSPAddon.Startup.Instantly, true)]
-    internal class Startup : MonoBehaviour
+	public static class LegalMamboJambo
 	{
-        private void Start()
-        {
-            Log.force("Version {0}", Version.Text);
-
-            try
-            {
-                KSPe.Util.Installation.Check<Startup>(typeof(Version));
-            }
-            catch (KSPe.Util.InstallmentException e)
-            {
-                Log.error(e.ToShortMessage());
-                KSPe.Common.Dialogs.ShowStopperAlertBox.Show(e);
-            }
-        }
+		public const string Company = "/L Aerospace KSP Division on behalf of Thunder Aerosapce Corporation";
+		public const string Copyright = "© 2019-2021 LisiasT";
+		public const string Product = "TAC Fuel Balancer";
+		public const string Trademark = "TAC Fuel Balancer™ by Taranis Elsu; /L Unleashed by LisiasT";
 	}
 }
