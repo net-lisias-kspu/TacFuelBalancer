@@ -111,6 +111,8 @@ namespace Tac
 			GameEvents.onShowUI.Add( OnShowUI );
 			UiHidden = false;
 
+            GameEvents.onVesselChange.Add(this.onVesselChange);
+
             // Make sure the resource/part list is correct after other mods, such as StretchyTanks, do their thing.
 //			this.Log( "Need RebuildActiveVesselLists" );
 			_nextListRebuild = DateTime.Now.AddSeconds( 2 );
@@ -708,8 +710,8 @@ namespace Tac
             {
                 this.toolbarButton = Toolbar.Button.Create(this
                         , ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW
-                        , Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel")
-                        , Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel-small")
+                        , Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel"), Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel-disabled")
+                        , Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel-small"), Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel-disabled-small")
                         , global::TacFuelBalancer.Version.FriendlyName
                     );
                 this.toolbarButton.Toolbar.Add(Toolbar.Button.ToolbarEvents.Kind.Active
@@ -763,6 +765,9 @@ namespace Tac
 			UiHidden = false;
 		}
 
-
-    }
+		private void onVesselChange(Vessel vessel)
+		{
+			this.toolbarButton.Enabled = !vessel.isEVA;
+		}
+	}
 }
