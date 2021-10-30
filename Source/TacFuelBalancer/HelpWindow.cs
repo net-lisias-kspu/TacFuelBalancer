@@ -16,6 +16,9 @@
 */
 using UnityEngine;
 
+using GUI = KSPe.UI.GUI;
+using GUILayout = KSPe.UI.GUILayout;
+
 using Log = TacFuelBalancer.Log;
 
 namespace Tac

@@ -37,6 +37,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion(TacFuelBalancer.Version.Number)]
 [assembly: AssemblyVersion(TacFuelBalancer.Version.Number)]
 [assembly: KSPAssembly("TacFuelBalancer", TacFuelBalancer.Version.major, TacFuelBalancer.Version.minor)]
-
-[assembly: KSPAssemblyDependency("KSPe", 2, 1)]
-[assembly: KSPAssemblyDependency("ToolbarController", 1, 0)]
+[assembly: KSPAssemblyDependency("KSPe", 2, 4)]
+[assembly: KSPAssemblyDependency("KSPe.UI", 2, 4)]

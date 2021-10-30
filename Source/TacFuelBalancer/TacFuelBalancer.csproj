@@ -37,9 +37,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="ToolbarControl">
-      <HintPath>..\..\..\..\..\..\LIB\plugins\ToolbarControl.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp.dll</HintPath>
     </Reference>
@@ -61,7 +58,6 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="PartExtensions.cs" />
     <Compile Include="PopupWindow.cs" />
-    <Compile Include="RegisterToolbar.cs" />
     <Compile Include="SettingsWindow.cs" />
     <Compile Include="FuelBalanceController.cs" />
     <Compile Include="HelpWindow.cs" />
@@ -75,6 +71,8 @@
       <DependentUpon>Version.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\LegalMamboJambo.cs" />
+    <Compile Include="ModuleManagerSupport.cs" />
+    <Compile Include="ToolbarSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\icon-tac-fuel-small.png" />

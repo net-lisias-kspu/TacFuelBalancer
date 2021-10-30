@@ -19,8 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KSP.UI.Screens;
-using ToolbarControl_NS;
 
+using Toolbar = KSPe.UI.Toolbar;
+using Asset = KSPe.IO.Asset<TacFuelBalancer.Startup>;
 using PluginData = KSPe.IO.File<TacFuelBalancer.Startup>.Asset;
 using PluginConfig = KSPe.IO.Data<TacFuelBalancer.Startup>.ConfigNode;
 
@@ -184,18 +185,16 @@ namespace Tac
 
             if (activeVessel.isEVA)
             {
-                toolbarControl.SetFalse();
-                //button.SetDisabled( );
-                //button.SetOff( );
-                toolbarControl.Enabled = false;
+                this.toolbarButton.Active = false;
+                this.toolbarButton.Enabled = false;
                 mainWindow.SetVisible(false);
                 return;
             }
             //else if (!button.IsEnabled())
-            else if (!toolbarControl.Enabled)
+            else if (!this.toolbarButton.Enabled)
             {
                 //button.SetEnabled( );
-                toolbarControl.Enabled = true;
+                this.toolbarButton.Enabled = true;
             }
 
             if (activeVessel != vesselInfo.vessel || activeVessel.situation != vesselInfo.lastSituation || activeVessel.Parts.Count != vesselInfo.lastPartCount)
@@ -352,23 +351,20 @@ namespace Tac
             CONFIG.Save(config);
         }
 
-		private void OnWindowClosed( object sender, EventArgs e )
+		private void OnWindowClosed(object sender, EventArgs e)
 		{
-            toolbarControl.SetFalse();
-			//button.SetOff( );
+			this.toolbarButton.Active = false;
 		}
 
 		private void OnIconOpen( object sender, EventArgs e  )
         {
             mainWindow.SetVisible( true );
-            toolbarControl.SetTrue();
-			//button.SetOn( );
+			this.toolbarButton.Active = true;
         }
 		private void OnIconClose( object sender, EventArgs e  )
 		{
 			mainWindow.SetVisible( false );
-            toolbarControl.Enabled = false;
-			//button.SetOff( );
+            toolbarButton.Enabled = false;
 		}
 
 
@@ -704,23 +700,22 @@ namespace Tac
 		}
 
 
-        private ToolbarControl toolbarControl;
-        internal const string MODID = "TACFUELBALANCER";
-        internal const string MODNAME = "Tac Fuel Balancer";
+        private Toolbar.Button toolbarButton;
 
         void InitToolbarController()
         {
-            if (toolbarControl == null)
+            if (toolbarButton == null)
             {
-                GameObject gameObject = new GameObject();
-                toolbarControl = gameObject.AddComponent<ToolbarControl>();
-                toolbarControl.AddToAllToolbars(DoOnButtonOn, DoOnButtonOff,
-                    ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW,
-                    MODID,
-                    MODID + "button",
-                    PluginData.Solve("Icons/icon-tac-fuel"),
-                    PluginData.Solve("Icons/icon-tac-fuel-small"),
-                    MODNAME);
+                this.toolbarButton = Toolbar.Button.Create(this
+                        , ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW
+                        , Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel")
+                        , Asset.Texture2D.LoadFromFile("Icons", "icon-tac-fuel-small")
+                        , global::TacFuelBalancer.Version.FriendlyName
+                    );
+                this.toolbarButton.Toolbar.Add(Toolbar.Button.ToolbarEvents.Kind.Active
+                        , new Toolbar.Button.Event(this.DoOnButtonOn, this.DoOnButtonOff)
+                    );
+                global::TacFuelBalancer.ToolbarController.Instance.Add(this.toolbarButton);
             }
         }
 
@@ -750,12 +745,11 @@ namespace Tac
         /// </summary>
 		private void RemoveButtons( )
 		{
-            if (toolbarControl != null)
-            {
-                toolbarControl.OnDestroy();
-                Destroy(toolbarControl);
-                toolbarControl = null;
-            }
+			if (null != this.toolbarButton)
+			{
+				global::TacFuelBalancer.ToolbarController.Instance.Destroy();
+				this.toolbarButton = null;
+			}
 		}
 
 

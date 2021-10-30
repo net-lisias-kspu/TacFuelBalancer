@@ -20,6 +20,8 @@ using System.Linq;
 using UnityEngine;
 
 using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
+using GUI = KSPe.UI.GUI;
+using GUILayout = KSPe.UI.GUILayout;
 
 using Log = TacFuelBalancer.Log;
 
