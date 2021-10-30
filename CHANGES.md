@@ -1,5 +1,8 @@
 # TAC Fuel Balancer /L Unleashed :: Changes 
 
+* 2021-1030: 2.21.5.5 (lisias) for KSP >= 1.4.1
+	+ Adding KSPe.UI v2.5 features (toolbar, etc)
+	+ Shadowing the Icon when the add'on is disabled. 
 * 2020-0811: 2.21.5.4 (lisias) for KSP >= 1.4.1
 	+ Rolling back a bad idea. 
 * 2020-0101: 2.21.5.3 (lisias) for KSP >= 1.4.1

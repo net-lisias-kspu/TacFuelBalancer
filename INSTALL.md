@@ -50,8 +50,3 @@ The following file layout must be present after installation:
 * [KSP API Extensions/L](https://github.com/net-lisias-ksp/KSPAPIExtensions)
 	+ Hard Dependency - Plugin will not work without it.
 	+ Not Included
-* [Toolbar Controller](https://github.com/net-lisias-kspu/ToolbarControl)
-	+ Hard Dependency - Plugin will not work without it.
-	+ Not Included
-
-
