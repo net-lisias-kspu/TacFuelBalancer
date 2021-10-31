@@ -123,6 +123,7 @@ namespace Tac
             Log.detail("OnDestroy");
             mainWindow.WindowClosed -= OnWindowClosed;
             Save();
+            GameEvents.onVesselChange.Remove(this.onVesselChange);
             RemoveButtons();
         }
 
