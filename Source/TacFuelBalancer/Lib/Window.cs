@@ -18,8 +18,6 @@ using System;
 using UnityEngine;
 using KSP.UI.Dialogs;
 
-using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
-
 using GUI = KSPe.UI.GUI;
 using GUILayout = KSPe.UI.GUILayout;
 
@@ -62,30 +60,10 @@ namespace Tac
             mouseDown = false;
             visible = false;
 
-            //var texture = TextureHelper.FromResource("Tac.icons.resize.png", 16, 16);
-            Texture2D texture = null;
-            try
-            {
-                texture = TextureHelper.FromResource("icons.resize.png", 16, 16);
-            }
-            catch (Exception ex)
-            {
-                Log.dbg("exception loading resize texture from resource: " + ex.Message);
-                texture = KSPe.Util.Image.Texture2D.Get(GDBAsset.Solve("Icons/resize"), false);
-            }
+            Texture2D texture = TextureHelper.LoadImage("icons", "resize.png", 16, 16);
             resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window") : new GUIContent("R", "Drag to resize the window");
 
-            //var closetexture = TextureHelper.FromResource("Tac.icons.close.png", 16, 16);
-            Texture2D closetexture = null;
-            try
-            {
-                closetexture = TextureHelper.FromResource("icons.close.png", 16, 16);
-            }
-            catch (Exception ex)
-            {
-                Log.dbg("exception loading closetexture from resource: " + ex.Message);
-                closetexture = KSPe.Util.Image.Texture2D.Get(GDBAsset.Solve("Icons/close"), false);
-            }
+            Texture2D closetexture = TextureHelper.LoadImage("icons", "close.png", 16, 16);
             closeContent = ( closetexture != null ) ? new GUIContent( closetexture, "Close window" ) : new GUIContent( "X", "Close window" );
 
 

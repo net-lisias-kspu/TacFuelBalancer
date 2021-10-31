@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using GDBAsset = KSPe.GameDB.Asset<TacFuelBalancer.Startup>;
 using GUI = KSPe.UI.GUI;
 using GUILayout = KSPe.UI.GUILayout;
 
@@ -79,28 +78,10 @@ namespace Tac
             catch { }
             settingsContent = (settingstexture != null) ? new GUIContent(settingstexture, "Settings window") : new GUIContent("S", "Settings window");
 #endif
-            Texture2D helptexture = null;
-            try
-            {
-                helptexture = TextureHelper.FromResource("icons.help.png", 16, 16);
-            }
-            catch (Exception ex)
-            {
-                Log.dbg("exception loading helptexture from resource: " + ex.Message);
-                helptexture = KSPe.Util.Image.Texture2D.Get(GDBAsset.Solve("Icons/help"), false);
-            }
+            Texture2D helptexture = TextureHelper.LoadImage("icons", "help.png", 16, 16);
             helpContent = (helptexture != null) ? new GUIContent(helptexture, "Help window") : new GUIContent("?", "Help window");
 
-            Texture2D resettexture;
-            try
-            {
-                resettexture = TextureHelper.FromResource("icons.reset.png", 16, 16);
-            }
-            catch (Exception ex)
-            {
-                Log.dbg("exception loading resettexture from resource: " + ex.Message);
-                resettexture = KSPe.Util.Image.Texture2D.Get(GDBAsset.Solve("Icons/reset"), false);
-            }
+            Texture2D resettexture = TextureHelper.LoadImage("icons", "reset.png", 16, 16);
             resetContent = (resettexture != null) ? new GUIContent(resettexture, "Reset resource lists") : new GUIContent("?", "Reset resource lists");
         }
 

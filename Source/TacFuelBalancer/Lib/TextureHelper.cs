@@ -16,8 +16,10 @@
 */
 using System.Reflection;
 using UnityEngine;
-using KSP.IO;
 
+using Asset = KSPe.IO.Asset<TacFuelBalancer.Startup>;
+
+using Log = TacFuelBalancer.Log;
 
 namespace Tac
 {
@@ -25,6 +27,20 @@ namespace Tac
 	/// Contains static methods to assist in creating textures.
 	/// </summary>
 	internal static class TextureHelper {
+
+		public static Texture2D LoadImage(string dir, string name, int width, int height)
+		{
+			try
+			{
+				return FromResource(string.Format("Tac.{0}.{1}", dir, name), 16, 16);
+			}
+			catch (System.Exception ex)
+			{
+				Log.dbg("exception loading helptexture from resource: " + ex.Message);
+				return Asset.Texture2D.LoadFromFile(dir, name);
+			}
+		}
+
 		/// <summary>
 		/// Creates a new Texture2D from an embedded resource.
 		/// </summary>
@@ -32,7 +48,7 @@ namespace Tac
 		/// <param name="width">The width of the texture.</param>
 		/// <param name="height">The height of the texture.</param>
 		/// <returns></returns>
-		public static Texture2D FromResource( string resource, int width, int height )
+		private static Texture2D FromResource( string resource, int width, int height )
 		{
 			var tex = new Texture2D( width, height, TextureFormat.ARGB32, false );
 			var iconStream = Assembly.GetExecutingAssembly( ).GetManifestResourceStream( resource ).ReadToEnd( );
@@ -42,21 +58,5 @@ namespace Tac
 			tex.Apply();
 			return tex;
 		}
-
-
-
-		public static Texture2D LoadImage<T>( string filename, int width, int height )
-		{
-			if( File.Exists<T>( filename ) )
-			{
-				var bytes = File.ReadAllBytes<T>( filename );
-				Texture2D texture = new Texture2D( width, height, TextureFormat.ARGB32, false );
-				texture.LoadImage( bytes );
-				return texture;
-			}
-			else
-				return null;
-		}
-
 	}
 }
